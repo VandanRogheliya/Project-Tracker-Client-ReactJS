@@ -103,7 +103,10 @@ function Comments(props) {
 							<Col xs="8" className="d-none d-lg-block">
 								<Media className="align-items-center">
 									<span className="avatar avatar-sm rounded-circle">
-										<img alt="..." src={`https://project-t-api.herokuapp.com/images/${comment.author.image}`} />
+										<img alt="..." 
+										// src={`https://project-t-api.herokuapp.com/images/${comment.author.image}`} 
+										src={require(`../assets/img/avatars/${comment.author.image}`)}
+										/>
 									</span>
 									<Media className="ml-2 d-none d-lg-block">
 										{/* Username */}

@@ -82,3 +82,19 @@ footer {
 .error-code {
   font-size: 500%;
 }
+
+.avatars {
+  /* background-color: #2dce89; */
+  /* margin: auto; */
+  text-align: center;
+}
+
+.avatars img {
+  width: 50%;
+  margin-bottom: 5%;
+}
+
+.avatars img:hover {
+  cursor: pointer;
+
+}

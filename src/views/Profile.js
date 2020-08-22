@@ -19,6 +19,7 @@ import {
 // core components
 import UserHeader from '../components/Headers/UserHeader'
 import InfoStatus from './InfoStatus'
+import EditPic from './modals/EditPic'
 
 function Profile() {
 	// Form State
@@ -112,24 +113,25 @@ function Profile() {
 	}
 
 	// Gets image file and sends it to backend
-	const onFileUpload = async e => {
-		try {
-			const formData = new FormData()
-			console.log('Works')
-			formData.append('imageFile', e.target.files[0])
+	// TODO: For custom profiles pictures
+	// const onFileUpload = async e => {
+	// 	try {
+	// 		const formData = new FormData()
+	// 		console.log('Works')
+	// 		formData.append('imageFile', e.target.files[0])
 
-			let res = await authFetch(`/api/users/${data._id}`, {
-				method: 'PUT',
-				body: formData,
-			})
-			console.log(await res.json())
-		} catch (err) {
-			console.log(err)
-		}
+	// 		let res = await authFetch(`/api/users/${data._id}`, {
+	// 			method: 'PUT',
+	// 			body: formData,
+	// 		})
+	// 		console.log(await res.json())
+	// 	} catch (err) {
+	// 		console.log(err)
+	// 	}
 
-		// TODO:
-		// window.location.reload()
-	}
+	// 
+	// 	// window.location.reload()
+	// }
 
 	if (status === 'loading') return <InfoStatus status="loading" />
 
@@ -154,8 +156,9 @@ function Profile() {
 										<img
 											alt="..."
 											className="rounded-circle"
-											src={'https://project-t-api.herokuapp.com/images/' + data.image}
+											// src={'https://project-t-api.herokuapp.com/images/' + data.image}
 											// src={'http://localhost:5000/images/' + data.image}
+											src={require(`../assets/img/avatars/${data.image}`)}
 										/>
 									</div>
 								</Col>
@@ -163,9 +166,11 @@ function Profile() {
 							<CardHeader className="text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
 								{/* Editing Profile img  */}
 								<div className="d-flex justify-content-between">
-									<Button className="mr-4" color="default" size="sm" htmlFor="file-upload">
+								<EditPic userId={data._id}/>
+								{/* TODO: For custom profile pictures */}
+									{/* <Button className="mr-4" color="default" size="sm" htmlFor="file-upload"> */}
 										{/* Input is hidden, label triggers it */}
-										<label className="m-0 file-upload-label" size="sm" htmlFor="file-upload">
+										{/* <label className="m-0 file-upload-label" size="sm" htmlFor="file-upload">
 											Edit
 											<input
 												id="file-upload"
@@ -175,7 +180,7 @@ function Profile() {
 												name="imageFile"
 											/>
 										</label>
-									</Button>
+									</Button> */}
 								</div>
 							</CardHeader>
 							<CardBody className="pt-0 pt-md-4">
