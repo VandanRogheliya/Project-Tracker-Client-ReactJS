@@ -66,11 +66,11 @@ function CompleteRegistration(props) {
 		})
 
 		// A flag which is set true when user successfully signs up
-		props.setCompleted(true)
+		props.setCompleted(1)
 	}
 
 	// If user is now logged in and completed registration then redirected to dashboard
-	if (logged && props.completed) {
+	if (logged && props.completed === 1) {
 		return <Redirect to="/dashboard" />
 	}
 

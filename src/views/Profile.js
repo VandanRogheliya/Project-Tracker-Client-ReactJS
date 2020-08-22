@@ -113,14 +113,22 @@ function Profile() {
 
 	// Gets image file and sends it to backend
 	const onFileUpload = async e => {
-		const formData = new FormData()
-		formData.append('imageFile', e.target.files[0])
-		await authFetch(`/api/users/${data._id}`, {
-			method: 'PUT',
-			body: formData,
-		})
+		try {
+			const formData = new FormData()
+			console.log('Works')
+			formData.append('imageFile', e.target.files[0])
 
-		window.location.reload()
+			let res = await authFetch(`/api/users/${data._id}`, {
+				method: 'PUT',
+				body: formData,
+			})
+			console.log(await res.json())
+		} catch (err) {
+			console.log(err)
+		}
+
+		// TODO:
+		// window.location.reload()
 	}
 
 	if (status === 'loading') return <InfoStatus status="loading" />
@@ -147,6 +155,7 @@ function Profile() {
 											alt="..."
 											className="rounded-circle"
 											src={'https://project-t-api.herokuapp.com/images/' + data.image}
+											// src={'http://localhost:5000/images/' + data.image}
 										/>
 									</div>
 								</Col>

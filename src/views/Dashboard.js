@@ -106,7 +106,7 @@ function Dashboard() {
 			<tr key={key}>
 				<th scope="row">
 					<Link to={`/organization/${organization.organization && organization.organization._id}`}>
-						{organization.organization && organization.organization.title}
+						{organization.organization ? organization.organization.title : `Loading`}
 					</Link>
 				</th>
 				{organization.admin ? <td>Admin</td> : <td>Member</td>}
@@ -127,17 +127,17 @@ function Dashboard() {
 			<tr key={key}>
 				<th scope="row">
 					<Link to={`issue/${issue.issue && issue.issue._id}`}>
-						<span className="mb-0 text-sm">{issue.issue && issue.issue.title}</span>
+						<span className="mb-0 text-sm">{issue.issue ? issue.issue.title : `Loading`}</span>
 					</Link>
 				</th>
 
 				<th scope="row">
-					<span className="mb-0 text-sm">{issue.issue && issue.issue.status}</span>
+					<span className="mb-0 text-sm">{issue.issue ? issue.issue.status: `Loading`}</span>
 				</th>
 
 				<th scope="row">
 					<span className="mb-0 text-sm">
-						{issue.issue && new Date(issue.issue.updatedAt).toDateString()}
+						{issue.issue ? new Date(issue.issue.updatedAt).toDateString() : `Loading`}
 					</span>
 				</th>
 			</tr>

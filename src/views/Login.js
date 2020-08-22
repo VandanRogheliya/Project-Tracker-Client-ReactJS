@@ -13,7 +13,8 @@ function Login(props) {
 	const [user, setUser] = useState({})
 
 	// Registration completed flag
-	const [completed, setCompleted] = useState(false)
+	// 2: Not checked, 1: Completed, 0: Not Completed
+	const [completed, setCompleted] = useState(2)
 
 	// Gets and stored the JWT
 	const getToken = async (query, isMounted) => {
@@ -32,14 +33,17 @@ function Login(props) {
 			login(await token.json())
 
 			// Checking if JWT is valid and getting user info from api
-			checkJWT(isMounted)
+			let completedTemp = await checkJWT(isMounted)
 
+			console.log(completedTemp)
 			// Toggles CompleteRegistration modal
-			if (isMounted) toggleModal()
+			if (isMounted && !completedTemp) toggleModal()
 		} catch (err) {
 			console.log(err)
 		}
 	}
+
+	// TODO: Complete registration window does not popup. Find a way to make it popup
 
 	const checkJWT = async isMounted => {
 		try {
@@ -60,7 +64,11 @@ function Login(props) {
 				checkJWTtoken.user.lastName &&
 				isMounted
 			) {
-				setCompleted(true)
+				setCompleted(1)
+				return true
+			} else {
+				setCompleted(0)
+				return false
 			}
 		} catch (err) {
 			console.log(err)
