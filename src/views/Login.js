@@ -30,9 +30,9 @@ function Login(props) {
 				token = await fetch('/api/users/google/redirect?' + new URLSearchParams(query))
 			}
 			
-			console.log("THIS2", token)
+			console.log("THIS2", await token.json())
 			// Storing in the local storage
-			login(await token.json())
+			login(token)
 			console.log("THIS3", logged)
 			
 			// Checking if JWT is valid and getting user info from api
