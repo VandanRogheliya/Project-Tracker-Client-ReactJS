@@ -20,7 +20,8 @@ function Login(props) {
 	const getToken = async (query, isMounted) => {
 		try {
 			let token
-
+			console.log("THIS1")
+			
 			// query length of github is 20 and for google it is greater then 20
 			// Weak point TODO: Find a better solution
 			if (query.code.length <= 20) {
@@ -31,10 +32,11 @@ function Login(props) {
 
 			// Storing in the local storage
 			login(await token.json())
-
+			
 			// Checking if JWT is valid and getting user info from api
 			let completedTemp = await checkJWT(isMounted)
-
+			
+			console.log("THIS2")
 			console.log(completedTemp)
 			// Toggles CompleteRegistration modal
 			if (isMounted && !completedTemp) toggleModal()
