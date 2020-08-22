@@ -6,7 +6,7 @@ import { login, authFetch, useAuth } from '../AuthProvider.ts'
 import { Button, Card, CardHeader, Col } from 'reactstrap'
 import CompleteRegistration from './modals/CompleteRegistration'
 
-const fetch = require('node-fetch')
+// const fetch = require('node-fetch')
 
 function Login(props) {
 	// Boolean to check if user is logged in
