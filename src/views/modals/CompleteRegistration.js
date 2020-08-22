@@ -1,0 +1,164 @@
+import React, { useState } from 'react'
+import {
+	Alert,
+	Modal,
+	Card,
+	CardHeader,
+	CardBody,
+	Row,
+	FormGroup,
+	Input,
+	Col,
+	Button,
+	Form,
+} from 'reactstrap'
+import { authFetch, useAuth } from '../../AuthProvider.ts'
+import { Redirect } from 'react-router-dom'
+
+function CompleteRegistration(props) {
+	const [logged] = useAuth()
+
+	const [isMissing, setIsMissing] = useState(false)
+	const [isTaken, setIsTaken] = useState(false)
+
+	// State to store form fields
+	const [form, setForm] = useState({
+		username: props.user.username,
+		email: props.user.email,
+		firstName: props.user.firstName,
+		lastName: props.user.lastName,
+	})
+
+	// Stated updated when input field changes
+	const onChangeHandle = ({ target }) => {
+		const { name, value } = target
+
+		setForm({ ...form, [name]: value })
+	}
+
+	// On Submit form is PUT to the backend
+	const onSubmit = async () => {
+		// Checks if there are any missing field
+		if (!form.username || !form.email || !form.firstName || !form.lastName) {
+			setIsMissing(true)
+			return
+		}
+
+		if (isMissing) setIsMissing(false)
+
+		// Fetches all the users with the input username
+		let users = await fetch('/api/users?' + new URLSearchParams({ username: form.username }))
+
+		users = await users.json()
+
+		// Checks if there is a user with that username
+		if (users.length) {
+			setIsTaken(true)
+			return
+		}
+
+		await authFetch(`/api/users/${props.user._id}`, {
+			method: 'PUT',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(form),
+		})
+
+		// A flag which is set true when user successfully signs up
+		props.setCompleted(true)
+	}
+
+	// If user is now logged in and completed registration then redirected to dashboard
+	if (logged && props.completed) {
+		return <Redirect to="/dashboard" />
+	}
+
+	return (
+		<Modal className="modal-dialog-centered" size="lg" isOpen={props.toggle}>
+			<div className="modal-body p-0">
+				<Card className="bg-secondary shadow border-0">
+					<CardHeader className="bg-white border-0">
+						<h4 className="mb-0">Complete Registration</h4>
+					</CardHeader>
+					<CardBody className="">
+						{/* Form */}
+						<Form>
+							<Row>
+								<Col md="6">
+									{/* Username */}
+									<FormGroup>
+										<label>Username</label>
+										<Input
+											placeholder="Username"
+											type="text"
+											name="username"
+											className="form-control-alternative"
+											onChange={onChangeHandle}
+										/>
+									</FormGroup>
+								</Col>
+								<Col md="6">
+									{/* Email */}
+									<FormGroup>
+										<label>Email</label>
+										<Input
+											placeholder="Email"
+											type="email"
+											name="email"
+											className="form-control-alternative"
+											onChange={onChangeHandle}
+										/>
+									</FormGroup>
+								</Col>
+							</Row>
+							<Row>
+								<Col md="6">
+									{/* First Name */}
+									<FormGroup>
+										<label>First Name</label>
+										<Input
+											placeholder="First Name"
+											name="firstName"
+											type="text"
+											className="form-control-alternative"
+											onChange={onChangeHandle}
+										/>
+									</FormGroup>
+								</Col>
+								<Col md="6">
+									{/* Last Name */}
+									<FormGroup>
+										<label>Last Name</label>
+										<Input
+											placeholder="Last Name"
+											type="text"
+											name="lastName"
+											className="form-control-alternative"
+											onChange={onChangeHandle}
+										/>
+									</FormGroup>
+								</Col>
+							</Row>
+							{isMissing ? (
+								<Alert color="warning">
+									<strong>Please fill all the fields!</strong>
+								</Alert>
+							) : null}
+							{isTaken ? (
+								<Alert color="warning">
+									<strong>Username is already taken.</strong> Please choose other username.
+								</Alert>
+							) : null}
+							<Button color="primary" size="sm" onClick={() => onSubmit()} className="">
+								Submit
+							</Button>
+						</Form>
+					</CardBody>
+				</Card>
+			</div>
+		</Modal>
+	)
+}
+
+export default CompleteRegistration

@@ -1,0 +1,84 @@
+/* Auth Page */
+
+#auth {
+  background-color: #172b4d;
+}
+
+div.card-profile-stats .heading {
+  font-size: 1rem;
+  text-transform: none;
+}
+
+div.card-profile-stats .sec {
+  font-size: 1rem;
+  font-weight: normal;
+  text-transform: none;
+}
+
+form .success-input {
+  color: #2dce89;
+}
+
+form .danger-input {
+  color: #f5365c;
+}
+
+/* Table Links */
+.table-link {
+  color:#f4f5f7;
+}
+
+.table-link:hover {
+  color:#5e72e4;
+
+}
+
+/* Profile */
+.file-upload-label:hover {
+  cursor: pointer;
+}
+
+/* Loading */
+.loading-svg {
+  /* margin: auto; */
+  width: 50%;
+  padding: auto;
+  margin:auto;
+  padding-top: 10%;
+  /* position: fixed; */
+  /* left: 50%; */
+  /* top:10%; */
+  
+  /* padding-left: 500px; */
+}
+
+.loading-container {
+  width: 100%;
+  /* background-color: #172b4d; */
+  /* height: 800px; */
+}
+
+footer {
+  position: fixed;
+  width: 100%;
+  left: 0;
+  /* padding-left: 30px; */
+  text-align: center;
+  bottom: 0;
+}
+
+.footer-container {
+  height: 53px;
+}
+
+/* 404 */
+
+.error div {
+  padding:20%;
+  /* background-color:black ; */
+  text-align: center;
+}
+
+.error-code {
+  font-size: 500%;
+}
