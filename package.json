@@ -1,4 +1,5 @@
 {
+	"homepage": "https://vandanrogheliya.github.io/Project-T-Client-MERN-Project/",
 	"name": "client",
 	"version": "0.1.0",
 	"private": true,
@@ -44,5 +45,7 @@
 		]
 	},
 	"proxy": "https://project-t-api.herokuapp.com",
-	"devDependencies": {}
+	"devDependencies": {
+		"gh-pages": "^3.1.0"
+	}
 }
