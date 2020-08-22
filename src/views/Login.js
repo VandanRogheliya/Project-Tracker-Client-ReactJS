@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import queryString from 'query-string'
 import { login, authFetch, useAuth } from '../AuthProvider.ts'
-const fetch = require('node-fetch')
 // import fetch from 'node-fetch'
 // reactstrap components
 import { Button, Card, CardHeader, Col } from 'reactstrap'
 import CompleteRegistration from './modals/CompleteRegistration'
+
+const fetch = require('node-fetch')
 
 function Login(props) {
 	// Boolean to check if user is logged in
