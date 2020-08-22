@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import queryString from 'query-string'
 import { login, authFetch, useAuth } from '../AuthProvider.ts'
+const fetch = require('node-fetch')
+// import fetch from 'node-fetch'
 // reactstrap components
 import { Button, Card, CardHeader, Col } from 'reactstrap'
 import CompleteRegistration from './modals/CompleteRegistration'
@@ -20,25 +22,27 @@ function Login(props) {
 	const getToken = async (query, isMounted) => {
 		try {
 			let token
-			console.log("THIS1", query)
-			
+			console.log('THIS1', query)
+
 			// query length of github is 20 and for google it is greater then 20
 			// Weak point TODO: Find a better solution
 			if (query.code.length <= 20) {
+				console.log('GitHub')
 				token = await fetch('/api/users/github/redirect?' + new URLSearchParams(query))
 			} else {
+				console.log('Google')
 				token = await fetch('/api/users/google/redirect?' + new URLSearchParams(query))
 			}
-			
-			console.log("THIS2", await token.json())
+
+			console.log('THIS2', await token.json())
 			// Storing in the local storage
 			login(token)
-			console.log("THIS3", logged)
-			
+			console.log('THIS3', logged)
+
 			// Checking if JWT is valid and getting user info from api
 			let completedTemp = await checkJWT(isMounted)
-			
-			console.log("THIS4")
+
+			console.log('THIS4')
 			console.log(completedTemp)
 			// Toggles CompleteRegistration modal
 			if (isMounted && !completedTemp) toggleModal()
