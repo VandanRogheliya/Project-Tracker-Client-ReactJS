@@ -6,7 +6,12 @@ import { login, authFetch, useAuth } from '../AuthProvider.ts'
 import { Button, Card, CardHeader, Col } from 'reactstrap'
 import CompleteRegistration from './modals/CompleteRegistration'
 
-// const fetch = require('node-fetch')
+// FIXME:
+// Not able to log in from heroku's build
+// It can be a problem with fetch API, as the request is not sent to API
+// Did console logs on th backend, confirmed it is not being called
+// Fetch API works on client but have not checked login with it.
+// Also we can disable redirection to login page if user is not autherized and see if other part of the site are functional
 
 function Login(props) {
 	// Boolean to check if user is logged in

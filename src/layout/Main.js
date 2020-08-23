@@ -14,9 +14,9 @@ function Main(props) {
 	const [logged] = useAuth()
 
 	// Redirecting to Auth is user is not logged in
-	// if (!logged) {
-	// 	return <Redirect to="/auth/login" />
-	// }
+	if (!logged) {
+		return <Redirect to="/auth/login" />
+	}
 
 	// Sets routes from routes.js file
 	var getRoutes = routes => {
