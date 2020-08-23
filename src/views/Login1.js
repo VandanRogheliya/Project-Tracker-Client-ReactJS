@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import queryString from 'query-string'
 import { login, authFetch, useAuth } from '../AuthProvider.ts'
 // import fetch from 'node-fetch'
@@ -12,9 +12,11 @@ import CompleteRegistration from './modals/CompleteRegistration'
 // Did console logs on th backend, confirmed it is not being called
 // Fetch API works on client but have not checked login with it.
 // Also we can disable redirection to login page if user is not autherized and see if other part of the site are functional
-// TODO: Redirect user to dashboard if logged in
 
 function Login(props) {
+	// Mounter Flag
+	const isMounted = useRef(true)
+
 	// Boolean to check if user is logged in
 	const [logged] = useAuth()
 
@@ -26,7 +28,7 @@ function Login(props) {
 	const [completed, setCompleted] = useState(2)
 
 	// Gets and stored the JWT
-	const getToken = async (query, isMounted) => {
+	const getToken = async query => {
 		try {
 			let token
 
@@ -40,21 +42,18 @@ function Login(props) {
 
 			token = await token.json()
 
-			console.log(token)
+			console.log('THIS2', token)
 
 			// Storing in the local storage
 			login(token)
 
 			// Checking if JWT is valid and getting user info from api
-			let [completedTemp, user] = await checkJWT(isMounted)
-			if (completedTemp) {
-				setCompleted(1)
-			} else {
-				setCompleted(0)
-				setUser(user)
-			}
+			let completedTemp = await checkJWT()
+
+			console.log('THIS4')
+			console.log(completedTemp)
 			// Toggles CompleteRegistration modal
-			if (isMounted && !completedTemp) toggleModal()
+			if (!completedTemp) toggleModal()
 		} catch (err) {
 			console.log(err)
 		}
@@ -62,12 +61,14 @@ function Login(props) {
 
 	// TODO: Complete registration window does not popup. Find a way to make it popup
 
-	const checkJWT = async isMounted => {
+	const checkJWT = async () => {
 		try {
 			let checkJWTtoken = await authFetch('/api/users/checkJWTtoken')
 			checkJWTtoken = await checkJWTtoken.json()
 
-			// if (isMounted) setUser(checkJWTtoken.user)
+			if (isMounted.current)
+				setUser(checkJWTtoken.user)
+			// user = checkJWTtoken.user
 
 			// For navBar display picture
 			localStorage.setItem('image', checkJWTtoken.user.image)
@@ -78,17 +79,19 @@ function Login(props) {
 				checkJWTtoken.user.username &&
 				checkJWTtoken.user.email &&
 				checkJWTtoken.user.firstName &&
-				checkJWTtoken.user.lastName &&
-				isMounted
-			) {
-				// setCompleted(1)
-				// setUser(checkJWTtoken.user)
-				return [true, checkJWTtoken.user]
+				checkJWTtoken.user.lastName 
+				// && isMounted.current
+				) {
+					setCompleted(1)
+				// completed = 1
+				return true
 			} else {
-				// setCompleted(0)
-				// setUser(checkJWTtoken.user)
-				return [false, checkJWTtoken.user]
+				setCompleted(0)
+				// completed = 0
+				return false
 			}
+			// TODO: Check here if you get errors
+			// return false
 		} catch (err) {
 			console.log(err)
 		}
@@ -102,21 +105,22 @@ function Login(props) {
 
 	useEffect(() => {
 		// mounted flag
-		let isMounted = true
+		// let isMounted = true
 
 		// Redirects user to dashboard if he/she has completed registration before
 		if (logged) {
-			checkJWT(isMounted)
+			checkJWT()
 		}
 
 		// Parses the url to check for search query parameters
 		const query = queryString.parse(props.location.search)
 
 		// If it finds then token is generated and stored.
-		if (query.code && isMounted) getToken(query, isMounted)
+		// if (query.code && isMounted.current) getToken(query)
+		if (query.code) getToken(query)
 
 		return () => {
-			isMounted = false
+			isMounted.current = false
 		}
 	})
 
@@ -140,8 +144,7 @@ function Login(props) {
 							<Button
 								className="btn-neutral btn-icon"
 								color="default"
-								// href="https://project-t-api.herokuapp.com/api/users/github/oauth"
-								href="http://localhost:5000/api/users/github/oauth"
+								href="https://project-t-api.herokuapp.com/api/users/github/oauth"
 							>
 								<span className="btn-inner--icon">
 									<img alt="..." src={require('../assets/icons/github.4ffd4fe7.svg')} />
@@ -151,8 +154,7 @@ function Login(props) {
 							<Button
 								className="btn-neutral btn-icon"
 								color="default"
-								// href="https://project-t-api.herokuapp.com/api/users/google/oauth"
-								href="http://localhost:5000/api/users/google/oauth"
+								href="https://project-t-api.herokuapp.com/api/users/google/oauth"
 							>
 								<span className="btn-inner--icon">
 									<img alt="..." src={require('../assets/icons/google.87be59a1.svg')} />
