@@ -23,10 +23,14 @@ function CompleteRegistration(props) {
 
 	// State to store form fields
 	const [form, setForm] = useState({
-		username: props.user.username,
-		email: props.user.email,
-		firstName: props.user.firstName,
-		lastName: props.user.lastName,
+		// username: props.user.username,
+		// email: props.user.email,
+		// firstName: props.user.firstName,
+		// lastName: props.user.lastName,
+		username: '',
+		email: '',
+		firstName:'',
+		lastName: '',
 	})
 
 	// Stated updated when input field changes
