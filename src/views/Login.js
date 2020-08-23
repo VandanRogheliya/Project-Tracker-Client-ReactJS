@@ -40,15 +40,15 @@ function Login(props) {
 				token = await fetch('/api/users/google/redirect?' + new URLSearchParams(query))
 			}
 
-			console.log('THIS2', await token.json())
+			console.log('THIS2', token)
+			console.log('THIS3', await token.json())
 			// Storing in the local storage
 			login(token)
-			console.log('THIS3', logged)
+			console.log('THIS4', logged)
 
 			// Checking if JWT is valid and getting user info from api
 			let completedTemp = await checkJWT(isMounted)
 
-			console.log('THIS4')
 			console.log(completedTemp)
 			// Toggles CompleteRegistration modal
 			if (isMounted && !completedTemp) toggleModal()
