@@ -35,11 +35,12 @@ function Login(props) {
 			// Weak point TODO: Find a better solution
 			if (query.code.length <= 20) {
 				// token = await fetch('/api/users/github/redirect?' + new URLSearchParams(query))
-				token = await axios.get('/api/users/github/redirect?' + new URLSearchParams(query))
+				// FIXME:: FixCORS Error and deploy
+				token = await axios.get('https://project-t-api.herokuapp.com/api/users/github/redirect?' + new URLSearchParams(query))
 				
 			} else {
 				// token = await fetch('/api/users/google/redirect?' + new URLSearchParams(query))
-				token = await axios.get('/api/users/google/redirect?' + new URLSearchParams(query))
+				token = await axios.get('https://project-t-api.herokuapp.com/api/users/google/redirect?' + new URLSearchParams(query))
 			}
 			console.log(token)
 
