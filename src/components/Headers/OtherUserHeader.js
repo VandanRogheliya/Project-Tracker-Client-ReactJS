@@ -13,7 +13,7 @@ function OtherUserHeader(props) {
 					<Container className="d-flex align-items-center" fluid>
 						<Row>
 							<Col lg="7" md="10">
-								<h1 className="display-2 text-white">Hello Vandan</h1>
+								<h1 className="display-2 text-white">Hello {props.name}</h1>
 								<p className="text-white mt-0 mb-5">
 									This is {props.name}'s Profile. You can see contact information and rolls of the user. Also the
 									issues user has been interacting with.
