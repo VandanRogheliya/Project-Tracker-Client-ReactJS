@@ -5,16 +5,7 @@ import { login, authFetch, useAuth } from '../AuthProvider.ts'
 // reactstrap components
 import { Button, Card, CardHeader, Col } from 'reactstrap'
 import CompleteRegistration from './modals/CompleteRegistration'
-import axios from 'axios'
 import { config } from '../config'
-
-// FIXME:
-// Not able to log in from heroku's build
-// It can be a problem with fetch API, as the request is not sent to API
-// Did console logs on th backend, confirmed it is not being called
-// Fetch API works on client but have not checked login with it.
-// Also we can disable redirection to login page if user is not autherized and see if other part of the site are functional
-// TODO: Redirect user to dashboard if logged in
 
 function Login(props) {
 	// Boolean to check if user is logged in
@@ -35,16 +26,12 @@ function Login(props) {
 			// query length of github is 20 and for google it is greater then 20
 			// Weak point TODO: Find a better solution
 			if (query.code.length <= 20) {
-				// token = await fetch('/api/users/github/redirect?' + new URLSearchParams(query))
-				// FIXME:: FixCORS Error and deploy
 				token = await fetch(config.api + '/api/users/github/redirect?' + new URLSearchParams(query))
 			} else {
-				// token = await fetch('/api/users/google/redirect?' + new URLSearchParams(query))
 				token = await fetch(
 					config.api + '/api/users/google/redirect?' + new URLSearchParams(query)
 				)
 			}
-			console.log(token)
 
 			token = await token.json()
 
