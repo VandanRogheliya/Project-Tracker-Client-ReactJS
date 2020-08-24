@@ -3,7 +3,7 @@ import { authFetch } from '../../AuthProvider.ts'
 
 // reactstrap components
 import { Alert, Button, Card, CardHeader, CardBody, FormGroup, Input, Row, Modal } from 'reactstrap'
-import { config } from '../../../config'
+import { config } from '../../config'
 
 function AddUser({ data, toggleModal, toggle }) {
 	const [addUser, setAddUser] = useState('')

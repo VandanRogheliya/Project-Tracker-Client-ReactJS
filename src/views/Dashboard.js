@@ -11,7 +11,7 @@ import NewIssue from './modals/NewIssue'
 import NewProject from './modals/NewProject'
 import NewOrg from './modals/NewOrg'
 import InfoStatus from './InfoStatus'
-import { config } from '../../config'
+import { config } from '../config'
 
 // For Modals
 const initialState = {

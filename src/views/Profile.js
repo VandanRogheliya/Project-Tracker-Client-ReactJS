@@ -20,7 +20,7 @@ import {
 import UserHeader from '../components/Headers/UserHeader'
 import InfoStatus from './InfoStatus'
 import EditPic from './modals/EditPic'
-import { config } from '../../config'
+import { config } from '../config'
 
 function Profile() {
 	// Form State

@@ -4,7 +4,7 @@ import { useQuery } from 'react-query'
 
 // reactstrap components
 import { Card, CardBody, CardTitle, Container, Row, Col } from 'reactstrap'
-import { config } from '../../../config'
+import { config } from '../../config'
 
 function Header() {
 	// Gets user's info, logs out if token is not valid

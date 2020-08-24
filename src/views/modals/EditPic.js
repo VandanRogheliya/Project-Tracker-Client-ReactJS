@@ -3,7 +3,7 @@ import { authFetch } from '../../AuthProvider.ts'
 
 // reactstrap components
 import { Button, Card, CardHeader, CardBody, Col, Row, Modal } from 'reactstrap'
-import { config } from '../../../config'
+import { config } from '../../config'
 
 function EditPic(props) {
 	// Toggle state

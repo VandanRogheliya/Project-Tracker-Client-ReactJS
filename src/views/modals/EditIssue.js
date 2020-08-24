@@ -22,7 +22,7 @@ import {
 
 import ReactDatetime from 'react-datetime'
 import DeleteAlert from './DeleteAlert'
-import { config } from '../../../config'
+import { config } from '../../config'
 
 function EditIssue(props) {
 	// Form state

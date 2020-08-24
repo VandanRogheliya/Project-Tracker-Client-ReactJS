@@ -5,7 +5,7 @@ import { Redirect } from 'react-router-dom'
 // reactstrap components
 import { Alert, Modal, Card, CardHeader, CardBody, Row, FormGroup, Input, Button, Form } from 'reactstrap'
 import DeleteAlert from './DeleteAlert'
-import { config } from '../../../config'
+import { config } from '../../config'
 
 function EditOrg(props) {
 	const [form, setForm] = useState({ details: props.details })

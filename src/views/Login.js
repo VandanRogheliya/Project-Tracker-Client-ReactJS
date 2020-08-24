@@ -6,7 +6,7 @@ import { login, authFetch, useAuth } from '../AuthProvider.ts'
 import { Button, Card, CardHeader, Col } from 'reactstrap'
 import CompleteRegistration from './modals/CompleteRegistration'
 import axios from 'axios'
-import { config } from '../../config'
+import { config } from '../config'
 
 // FIXME:
 // Not able to log in from heroku's build

@@ -14,7 +14,7 @@ import {
 } from 'reactstrap'
 import { authFetch, useAuth } from '../../AuthProvider.ts'
 import { Redirect } from 'react-router-dom'
-import { config } from '../../../config'
+import { config } from '../../config'
 
 function CompleteRegistration(props) {
 	const [logged] = useAuth()

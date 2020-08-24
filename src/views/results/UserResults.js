@@ -2,7 +2,7 @@ import React from 'react'
 import { Card, CardHeader, Table } from 'reactstrap'
 import { useQuery } from 'react-query'
 import { Link } from 'react-router-dom'
-import { config } from '../../../config'
+import { config } from '../../config'
 
 function UserResults(props) {
 	// Gets data from database

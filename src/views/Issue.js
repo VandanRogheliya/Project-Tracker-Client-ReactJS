@@ -22,6 +22,7 @@ import Header from '../components/Headers/Header'
 import EditIssue from './modals/EditIssue'
 import Comments from './Comments'
 import InfoStatus from './InfoStatus'
+import { config } from '../config'
 
 const initialToggleState = {
 	editIssue: false,

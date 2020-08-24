@@ -17,7 +17,7 @@ import {
 	Form,
 } from 'reactstrap'
 import DeleteAlert from './DeleteAlert'
-import { config } from '../../../config'
+import { config } from '../../config'
 
 function EditProject(props) {
 	// Form state

@@ -7,7 +7,7 @@ import { Card, CardHeader, CardBody, CardTitle, Container, Row, Col, Table } fro
 // core components
 import OtherUserHeader from '../components/Headers/OtherUserHeader'
 import InfoStatus from './InfoStatus'
-import { config } from '../../config'
+import { config } from '../config'
 
 function User(props) {
 	const [is404, setIs404] = useState(false)

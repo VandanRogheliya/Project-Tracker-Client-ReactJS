@@ -12,7 +12,7 @@ import DeleteAlert from './modals/DeleteAlert'
 import EditOrg from './modals/EditOrg'
 import AddUser from './modals/AddUser'
 import InfoStatus from './InfoStatus'
-import { config } from '../../config'
+import { config } from '../config'
 
 // For Toggles
 const initialState = {

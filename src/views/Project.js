@@ -8,6 +8,7 @@ import { Button, Card, CardHeader, CardBody, CardTitle, Container, Col, Row, Tab
 import Header from '../components/Headers/Header'
 import EditProject from './modals/EditProject'
 import InfoStatus from './InfoStatus'
+import { config } from '../config'
 
 function Project(props) {
 	const [toggles, setToggles] = useState([false, false])

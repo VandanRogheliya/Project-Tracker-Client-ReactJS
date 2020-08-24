@@ -3,7 +3,7 @@ import { authFetch } from '../../AuthProvider.ts'
 
 import { Alert, Button, Card, CardHeader, CardBody, Col, FormGroup, Input, Row, Modal } from 'reactstrap'
 import DeleteAlert from './DeleteAlert'
-import { config } from '../../../config'
+import { config } from '../../config'
 
 const initialToggleState = {
 	editComment: false,

@@ -15,7 +15,7 @@ import {
 	Button,
 	Form,
 } from 'reactstrap'
-import { config } from '../../../config'
+import { config } from '../../config'
 
 function NewProject(props) {
 	// Stores form input

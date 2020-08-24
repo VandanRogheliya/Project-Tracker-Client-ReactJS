@@ -20,7 +20,7 @@ import {
 } from 'reactstrap'
 import EditComment from './modals/EditComment'
 import InfoStatus from './InfoStatus'
-import { config } from '../../config'
+import { config } from '../config'
 
 function Comments(props) {
 	const [isEmpty, setIsEmpty] = useState(false)
