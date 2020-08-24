@@ -5,6 +5,7 @@ import { login, authFetch, useAuth } from '../AuthProvider.ts'
 // reactstrap components
 import { Button, Card, CardHeader, Col } from 'reactstrap'
 import CompleteRegistration from './modals/CompleteRegistration'
+import axios from 'axios';
 
 // FIXME:
 // Not able to log in from heroku's build
@@ -33,14 +34,17 @@ function Login(props) {
 			// query length of github is 20 and for google it is greater then 20
 			// Weak point TODO: Find a better solution
 			if (query.code.length <= 20) {
-				token = await fetch('/api/users/github/redirect?' + new URLSearchParams(query))
+				// token = await fetch('/api/users/github/redirect?' + new URLSearchParams(query))
+				token = await axios.get('/api/users/github/redirect?' + new URLSearchParams(query))
+				
 			} else {
-				token = await fetch('/api/users/google/redirect?' + new URLSearchParams(query))
+				// token = await fetch('/api/users/google/redirect?' + new URLSearchParams(query))
+				token = await axios.get('/api/users/google/redirect?' + new URLSearchParams(query))
 			}
-
-			token = await token.json()
-
 			console.log(token)
+
+			token = token.data
+
 
 			// Storing in the local storage
 			login(token)
