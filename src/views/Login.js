@@ -11,7 +11,7 @@ import CompleteRegistration from './modals/CompleteRegistration'
 // It can be a problem with fetch API, as the request is not sent to API
 // Did console logs on th backend, confirmed it is not being called
 // Fetch API works on client but have not checked login with it.
-// Also we can disable redirection to login page if user is not autherized and see if other part of the site are functional
+// Also we can disable redirection to login page if user is not autherized and see if other part of the site are functional 	
 // TODO: Redirect user to dashboard if logged in
 
 function Login(props) {
@@ -60,7 +60,6 @@ function Login(props) {
 		}
 	}
 
-	// TODO: Complete registration window does not popup. Find a way to make it popup
 
 	const checkJWT = async isMounted => {
 		try {
@@ -140,8 +139,8 @@ function Login(props) {
 							<Button
 								className="btn-neutral btn-icon"
 								color="default"
-								// href="https://project-t-api.herokuapp.com/api/users/github/oauth"
-								href="http://localhost:5000/api/users/github/oauth"
+								href="https://project-t-api.herokuapp.com/api/users/github/oauth"
+								// href="http://localhost:5000/api/users/github/oauth"
 							>
 								<span className="btn-inner--icon">
 									<img alt="..." src={require('../assets/icons/github.4ffd4fe7.svg')} />
@@ -151,8 +150,8 @@ function Login(props) {
 							<Button
 								className="btn-neutral btn-icon"
 								color="default"
-								// href="https://project-t-api.herokuapp.com/api/users/google/oauth"
-								href="http://localhost:5000/api/users/google/oauth"
+								href="https://project-t-api.herokuapp.com/api/users/google/oauth"
+								// href="http://localhost:5000/api/users/google/oauth"
 							>
 								<span className="btn-inner--icon">
 									<img alt="..." src={require('../assets/icons/google.87be59a1.svg')} />
