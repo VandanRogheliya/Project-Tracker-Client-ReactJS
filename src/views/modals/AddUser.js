@@ -3,6 +3,7 @@ import { authFetch } from '../../AuthProvider.ts'
 
 // reactstrap components
 import { Alert, Button, Card, CardHeader, CardBody, FormGroup, Input, Row, Modal } from 'reactstrap'
+import { config } from '../../../config'
 
 function AddUser({ data, toggleModal, toggle }) {
 	const [addUser, setAddUser] = useState('')
@@ -26,7 +27,7 @@ function AddUser({ data, toggleModal, toggle }) {
 
 			// Fetching User
 			let user = await fetch(
-				'/api/users?' +
+				config.api + '/api/users?' +
 					new URLSearchParams({
 						username: addUser,
 					})
@@ -54,7 +55,7 @@ function AddUser({ data, toggleModal, toggle }) {
 				  })
 
 			// Put req to users in Backend
-			await authFetch(`/api/organizations/${data.org._id}`, {
+			await authFetch(config.api + `/api/organizations/${data.org._id}`, {
 				method: 'PUT',
 				headers: {
 					'Content-type': 'application/json',

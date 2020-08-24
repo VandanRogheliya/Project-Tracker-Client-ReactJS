@@ -27,7 +27,7 @@ function Project(props) {
 			}
 
 			// Fetching project
-			const project = await fetch(`/api/projects/${props.match.params.id}`)
+			const project = await fetch(config.api + `/api/projects/${props.match.params.id}`)
 
 			let response = {
 				project: await project.json(),
@@ -42,7 +42,7 @@ function Project(props) {
 
 			// Fetching issues
 			const issues = await fetch(
-				'/api/issues?' +
+				config.api + '/api/issues?' +
 					new URLSearchParams({
 						project: response.project._id,
 					})
@@ -51,7 +51,7 @@ function Project(props) {
 			response.issues = await issues.json()
 
 			// Verifies JWT
-			let user = await authFetch('/api/users/checkJWTtoken')
+			let user = await authFetch(config.api + '/api/users/checkJWTtoken')
 			user = await user.json()
 			let userOrgs = user.user.organizations
 

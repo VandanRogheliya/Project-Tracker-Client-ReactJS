@@ -5,6 +5,7 @@ import { Redirect } from 'react-router-dom'
 // reactstrap components
 import { Alert, Modal, Card, CardHeader, CardBody, Row, FormGroup, Input, Button, Form } from 'reactstrap'
 import DeleteAlert from './DeleteAlert'
+import { config } from '../../../config'
 
 function EditOrg(props) {
 	const [form, setForm] = useState({ details: props.details })
@@ -34,7 +35,7 @@ function EditOrg(props) {
 			formTemp.organization = props.orgID
 
 			// Updating organization
-			await authFetch(`/api/organizations/${props.orgID}`, {
+			await authFetch(config.api + `/api/organizations/${props.orgID}`, {
 				method: 'PUT',
 				headers: {
 					'Content-Type': 'application/json',
@@ -49,7 +50,7 @@ function EditOrg(props) {
 	}
 
 	const deleteOrg = async () => {
-		await authFetch(`/api/organizations/${props.orgID}`, {
+		await authFetch(config.api + `/api/organizations/${props.orgID}`, {
 			method: 'DELETE',
 			headers: {
 				'Content-Type': 'application/json',

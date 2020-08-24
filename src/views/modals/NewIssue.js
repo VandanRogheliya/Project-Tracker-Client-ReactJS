@@ -15,6 +15,7 @@ import {
 	Button,
 	Form,
 } from 'reactstrap'
+import { config } from '../../../config'
 
 function NewIssue(props) {
 	// Stores form input
@@ -65,7 +66,7 @@ function NewIssue(props) {
 
 			// Org Check
 			let orgs = await fetch(
-				'/api/organizations?' +
+				config.api + '/api/organizations?' +
 					new URLSearchParams({
 						title: form.organization,
 					})
@@ -80,7 +81,7 @@ function NewIssue(props) {
 
 			// Project Check
 			let project = await fetch(
-				'/api/projects?' +
+				config.api + '/api/projects?' +
 					new URLSearchParams({
 						title: form.project,
 					})
@@ -101,7 +102,7 @@ function NewIssue(props) {
 
 			// Duplicate issue title check
 			let issues = await fetch(
-				'/api/issues?' +
+				config.api + '/api/issues?' +
 					new URLSearchParams({
 						title: form.title,
 						organization: orgs[0]._id,
@@ -141,7 +142,7 @@ function NewIssue(props) {
 
 			setForm(formTemp)
 			// Posting new Issue
-			await authFetch('/api/issues', {
+			await authFetch(config.api + '/api/issues', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',

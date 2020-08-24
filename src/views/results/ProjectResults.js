@@ -2,11 +2,12 @@ import React from 'react'
 import { Card, CardHeader, Table } from 'reactstrap'
 import { useQuery } from 'react-query'
 import { Link } from 'react-router-dom'
+import { config } from '../../../config'
 
 function ProjectResults(props) {
 	// Gets data from database
 	const getProjects = async () => {
-		let projects = await fetch('/api/projects/search?' + new URLSearchParams(props.query))
+		let projects = await fetch(config.api + '/api/projects/search?' + new URLSearchParams(props.query))
 		return await projects.json()
 	}
 

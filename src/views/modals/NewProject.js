@@ -15,6 +15,7 @@ import {
 	Button,
 	Form,
 } from 'reactstrap'
+import { config } from '../../../config'
 
 function NewProject(props) {
 	// Stores form input
@@ -54,7 +55,7 @@ function NewProject(props) {
 
 			// Org Check
 			let orgs = await fetch(
-				'/api/organizations?' +
+				config.api + '/api/organizations?' +
 					new URLSearchParams({
 						title: form.organization,
 					})
@@ -69,7 +70,7 @@ function NewProject(props) {
 
 			// Duplicate project title check
 			let projects = await fetch(
-				'/api/projects?' +
+				config.api + '/api/projects?' +
 					new URLSearchParams({
 						title: form.title,
 						organization: orgs[0]._id,
@@ -97,7 +98,7 @@ function NewProject(props) {
 			setForm(formTemp)
 
 			// Posting new Project
-			await authFetch('/api/projects', {
+			await authFetch(config.api + '/api/projects', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',

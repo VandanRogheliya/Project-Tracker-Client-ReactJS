@@ -20,6 +20,7 @@ import {
 } from 'reactstrap'
 import EditComment from './modals/EditComment'
 import InfoStatus from './InfoStatus'
+import { config } from '../../config'
 
 function Comments(props) {
 	const [isEmpty, setIsEmpty] = useState(false)
@@ -33,7 +34,7 @@ function Comments(props) {
 	const getComments = async () => {
 		try {
 			let comments = await authFetch(
-				'/api/comments?' +
+				config.api + '/api/comments?' +
 					new URLSearchParams({
 						issue: props.issueId,
 					})
@@ -78,7 +79,7 @@ function Comments(props) {
 			}
 
 			// Posting new Comment
-			await authFetch('/api/comments', {
+			await authFetch(config.api + '/api/comments', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',

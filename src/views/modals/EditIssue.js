@@ -22,6 +22,7 @@ import {
 
 import ReactDatetime from 'react-datetime'
 import DeleteAlert from './DeleteAlert'
+import { config } from '../../../config'
 
 function EditIssue(props) {
 	// Form state
@@ -97,7 +98,8 @@ function EditIssue(props) {
 
 				// Fetch users
 				let assignee = await fetch(
-					'/api/users?' +
+					config.api +
+						'/api/users?' +
 						new URLSearchParams({
 							username: form.assignee,
 						})
@@ -112,7 +114,7 @@ function EditIssue(props) {
 				}
 
 				// Editing the issue at backend
-				await authFetch(`/api/issues/${props.issue._id}`, {
+				await authFetch(config.api + `/api/issues/${props.issue._id}`, {
 					method: 'PUT',
 					headers: {
 						'Content-Type': 'application/json',
@@ -124,7 +126,7 @@ function EditIssue(props) {
 				})
 			} else if (form.assignee === '') {
 				// Deleting assignee
-				await authFetch(`/api/issues/${props.issue._id}`, {
+				await authFetch(config.api + `/api/issues/${props.issue._id}`, {
 					method: 'DELETE',
 					headers: {
 						'Content-Type': 'application/json',
@@ -151,7 +153,8 @@ function EditIssue(props) {
 
 				// Fetching users
 				let reviewer = await fetch(
-					'/api/users?' +
+					config.api +
+						'/api/users?' +
 						new URLSearchParams({
 							username: form.reviewer,
 						})
@@ -166,7 +169,7 @@ function EditIssue(props) {
 				}
 
 				// Editing issue in the backend (Only reviewer field)
-				reviewer = await authFetch(`/api/issues/${props.issue._id}`, {
+				reviewer = await authFetch(config.api + `/api/issues/${props.issue._id}`, {
 					method: 'PUT',
 					headers: {
 						'Content-Type': 'application/json',
@@ -178,7 +181,7 @@ function EditIssue(props) {
 				})
 			} else if (form.reviewer === '') {
 				// Deleting reviewer
-				await authFetch(`/api/issues/${props.issue._id}`, {
+				await authFetch(config.api + `/api/issues/${props.issue._id}`, {
 					method: 'DELETE',
 					headers: {
 						'Content-Type': 'application/json',
@@ -205,7 +208,7 @@ function EditIssue(props) {
 					if (formTemp.fileName === '') {
 						// Deleting condition
 
-						await authFetch(`/api/issues/${props.issue._id}`, {
+						await authFetch(config.api + `/api/issues/${props.issue._id}`, {
 							method: 'DELETE',
 							headers: {
 								'Content-Type': 'application/json',
@@ -217,7 +220,7 @@ function EditIssue(props) {
 						})
 					} else {
 						// Editing existing one
-						await authFetch(`/api/issues/${props.issue._id}`, {
+						await authFetch(config.api + `/api/issues/${props.issue._id}`, {
 							method: 'PUT',
 							headers: {
 								'Content-Type': 'application/json',
@@ -234,7 +237,7 @@ function EditIssue(props) {
 					}
 				} else {
 					// New Attachment
-					await authFetch(`/api/issues/${props.issue._id}`, {
+					await authFetch(config.api + `/api/issues/${props.issue._id}`, {
 						method: 'PUT',
 						headers: {
 							'Content-Type': 'application/json',
@@ -257,7 +260,7 @@ function EditIssue(props) {
 
 			// Updating other info
 			// Not using the whole as the body because it my change attachments, assignee and reviewer
-			await authFetch(`/api/issues/${props.issue._id}`, {
+			await authFetch(config.api + `/api/issues/${props.issue._id}`, {
 				method: 'PUT',
 				headers: {
 					'Content-Type': 'application/json',
@@ -278,7 +281,7 @@ function EditIssue(props) {
 
 	// Deletes issue and redirects to project page
 	const deleteIssue = async () => {
-		await authFetch(`/api/issues/${props.issue._id}`, {
+		await authFetch(config.api + `/api/issues/${props.issue._id}`, {
 			method: 'DELETE',
 			headers: {
 				'Content-Type': 'application/json',

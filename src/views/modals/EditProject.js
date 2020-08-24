@@ -17,6 +17,7 @@ import {
 	Form,
 } from 'reactstrap'
 import DeleteAlert from './DeleteAlert'
+import { config } from '../../../config'
 
 function EditProject(props) {
 	// Form state
@@ -56,7 +57,7 @@ function EditProject(props) {
 			formTemp.techStack = formTemp.techStack.split(',').map(tech => tech.trim())
 
 			// Updating project
-			await authFetch(`/api/projects/${props.project._id}`, {
+			await authFetch(config.api + `/api/projects/${props.project._id}`, {
 				method: 'PUT',
 				headers: {
 					'Content-Type': 'application/json',
@@ -71,7 +72,7 @@ function EditProject(props) {
 
 	// Deletes project and redirects to org page
 	const deleteProject = async () => {
-		await authFetch(`/api/projects/${props.project._id}`, {
+		await authFetch(config.api + `/api/projects/${props.project._id}`, {
 			method: 'DELETE',
 			headers: {
 				'Content-Type': 'application/json',

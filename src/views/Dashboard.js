@@ -11,6 +11,7 @@ import NewIssue from './modals/NewIssue'
 import NewProject from './modals/NewProject'
 import NewOrg from './modals/NewOrg'
 import InfoStatus from './InfoStatus'
+import { config } from '../../config'
 
 // For Modals
 const initialState = {
@@ -54,15 +55,15 @@ const reducer = (state, action) => {
 function Dashboard() {
 	// Gets user data is token valid else logs out user
 	const getUser = async () => {
-		let checkJWTtoken = await authFetch('/api/users/checkJWTtoken')
+		let checkJWTtoken = await authFetch(config.api + '/api/users/checkJWTtoken')
 		checkJWTtoken = await checkJWTtoken.json()
 
 		if (checkJWTtoken.success) {
-			let user = await fetch(`/api/users/${checkJWTtoken.user._id}`)
+			let user = await fetch(config.api + `/api/users/${checkJWTtoken.user._id}`)
 			user = await user.json()
 
 			let reviewedIssues = await fetch(
-				'/api/issues?' +
+				config.api + '/api/issues?' +
 					new URLSearchParams({
 						reviewer: user._id,
 					})

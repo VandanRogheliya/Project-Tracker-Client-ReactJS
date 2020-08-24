@@ -5,14 +5,15 @@ import { login, authFetch, useAuth } from '../AuthProvider.ts'
 // reactstrap components
 import { Button, Card, CardHeader, Col } from 'reactstrap'
 import CompleteRegistration from './modals/CompleteRegistration'
-import axios from 'axios';
+import axios from 'axios'
+import { config } from '../../config'
 
 // FIXME:
 // Not able to log in from heroku's build
 // It can be a problem with fetch API, as the request is not sent to API
 // Did console logs on th backend, confirmed it is not being called
 // Fetch API works on client but have not checked login with it.
-// Also we can disable redirection to login page if user is not autherized and see if other part of the site are functional 	
+// Also we can disable redirection to login page if user is not autherized and see if other part of the site are functional
 // TODO: Redirect user to dashboard if logged in
 
 function Login(props) {
@@ -36,16 +37,16 @@ function Login(props) {
 			if (query.code.length <= 20) {
 				// token = await fetch('/api/users/github/redirect?' + new URLSearchParams(query))
 				// FIXME:: FixCORS Error and deploy
-				token = await axios.get('https://project-t-api.herokuapp.com/api/users/github/redirect?' + new URLSearchParams(query))
-				
+				token = await fetch(config.api + '/api/users/github/redirect?' + new URLSearchParams(query))
 			} else {
 				// token = await fetch('/api/users/google/redirect?' + new URLSearchParams(query))
-				token = await axios.get('https://project-t-api.herokuapp.com/api/users/google/redirect?' + new URLSearchParams(query))
+				token = await fetch(
+					config.api + '/api/users/google/redirect?' + new URLSearchParams(query)
+				)
 			}
 			console.log(token)
 
-			token = token.data
-
+			token = await token.json()
 
 			// Storing in the local storage
 			login(token)
@@ -65,10 +66,9 @@ function Login(props) {
 		}
 	}
 
-
 	const checkJWT = async isMounted => {
 		try {
-			let checkJWTtoken = await authFetch('/api/users/checkJWTtoken')
+			let checkJWTtoken = await authFetch(config.api + '/api/users/checkJWTtoken')
 			checkJWTtoken = await checkJWTtoken.json()
 
 			// if (isMounted) setUser(checkJWTtoken.user)

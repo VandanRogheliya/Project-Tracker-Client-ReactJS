@@ -4,18 +4,19 @@ import { useQuery } from 'react-query'
 
 // reactstrap components
 import { Card, CardBody, CardTitle, Container, Row, Col } from 'reactstrap'
+import { config } from '../../../config'
 
 function Header() {
 	// Gets user's info, logs out if token is not valid
 	const getUser = async () => {
-		let checkJWTtoken = await authFetch('/api/users/checkJWTtoken')
+		let checkJWTtoken = await authFetch(config.api + '/api/users/checkJWTtoken')
 		checkJWTtoken = await checkJWTtoken.json()
 
 		if (checkJWTtoken.success) {
 			let user = checkJWTtoken.user
 
 			user.reviewedIssues = await fetch(
-				'/api/issues?' +
+				config.api + '/api/issues?' +
 					new URLSearchParams({
 						reviewer: user._id,
 					})

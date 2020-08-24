@@ -7,6 +7,7 @@ import { Card, CardHeader, CardBody, CardTitle, Container, Row, Col, Table } fro
 // core components
 import OtherUserHeader from '../components/Headers/OtherUserHeader'
 import InfoStatus from './InfoStatus'
+import { config } from '../../config'
 
 function User(props) {
 	const [is404, setIs404] = useState(false)
@@ -20,7 +21,7 @@ function User(props) {
 				throw err
 			}
 
-			const user = await fetch(`/api/users/${props.match.params.id}`)
+			const user = await fetch(config.api + `/api/users/${props.match.params.id}`)
 			let response = {
 				user: await user.json(),
 			}

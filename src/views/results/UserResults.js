@@ -2,11 +2,12 @@ import React from 'react'
 import { Card, CardHeader, Table } from 'reactstrap'
 import { useQuery } from 'react-query'
 import { Link } from 'react-router-dom'
+import { config } from '../../../config'
 
 function UserResults(props) {
 	// Gets data from database
 	const getUsers = async () => {
-		let users = await fetch('/api/users/search?' + new URLSearchParams(props.query))
+		let users = await fetch(config.api + '/api/users/search?' + new URLSearchParams(props.query))
 		return await users.json()
 	}
 

@@ -14,6 +14,7 @@ import {
 } from 'reactstrap'
 import { authFetch, useAuth } from '../../AuthProvider.ts'
 import { Redirect } from 'react-router-dom'
+import { config } from '../../../config'
 
 function CompleteRegistration(props) {
 	const [logged] = useAuth()
@@ -51,7 +52,7 @@ function CompleteRegistration(props) {
 		if (isMissing) setIsMissing(false)
 
 		// Fetches all the users with the input username
-		let users = await fetch('/api/users?' + new URLSearchParams({ username: form.username }))
+		let users = await fetch(config.api + '/api/users?' + new URLSearchParams({ username: form.username }))
 
 		users = await users.json()
 
@@ -61,7 +62,7 @@ function CompleteRegistration(props) {
 			return
 		}
 
-		await authFetch(`/api/users/${props.user._id}`, {
+		await authFetch(config.api + `/api/users/${props.user._id}`, {
 			method: 'PUT',
 			headers: {
 				'Content-Type': 'application/json',

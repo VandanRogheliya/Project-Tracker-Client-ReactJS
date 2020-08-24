@@ -57,7 +57,7 @@ function Issue(props) {
 			}
 
 			// Fetches issue
-			const issue = await fetch(`/api/issues/${props.match.params.id}`)
+			const issue = await fetch(config.api + `/api/issues/${props.match.params.id}`)
 			let response = {
 				issue: await issue.json(),
 			}
@@ -69,7 +69,7 @@ function Issue(props) {
 			}
 
 			// Verifies JWT
-			let user = await authFetch('/api/users/checkJWTtoken')
+			let user = await authFetch(config.api + '/api/users/checkJWTtoken')
 			user = await user.json()
 			let userOrgs = user.user.organizations
 

@@ -12,6 +12,7 @@ import DeleteAlert from './modals/DeleteAlert'
 import EditOrg from './modals/EditOrg'
 import AddUser from './modals/AddUser'
 import InfoStatus from './InfoStatus'
+import { config } from '../../config'
 
 // For Toggles
 const initialState = {
@@ -72,7 +73,7 @@ function Organization(props) {
 			}
 
 			// Fetching Org
-			const org = await fetch(`/api/organizations/${props.match.params.id}`)
+			const org = await fetch(config.api + `/api/organizations/${props.match.params.id}`)
 			let response = {
 				org: await org.json(),
 			}
@@ -88,7 +89,7 @@ function Organization(props) {
 			// This makes URL= `/api/projects?organization=${response.org._id}` meaning:
 			// searching projects with organization field === org._id
 			const projects = await fetch(
-				'/api/projects?' +
+				config.api + '/api/projects?' +
 					new URLSearchParams({
 						organization: response.org._id,
 					})
@@ -96,7 +97,7 @@ function Organization(props) {
 			response.projects = await projects.json()
 
 			// Verifies JWT
-			let checkJWTtoken = await authFetch('/api/users/checkJWTtoken')
+			let checkJWTtoken = await authFetch(config.api + '/api/users/checkJWTtoken')
 			checkJWTtoken = await checkJWTtoken.json()
 
 			// If valid gets the user data sets the member and adin flags
@@ -122,7 +123,7 @@ function Organization(props) {
 				// Using temp for immediate effect
 				if (!isMemberTemp) {
 					let requests = await fetch(
-						'/api/requests?' +
+						config.api + '/api/requests?' +
 							new URLSearchParams({
 								organization: response.org._id,
 								user: response.user._id,
@@ -135,7 +136,7 @@ function Organization(props) {
 					}
 				} else if (isAdminTemp) {
 					let requests = await fetch(
-						'/api/requests?' +
+						config.api + '/api/requests?' +
 							new URLSearchParams({
 								organization: response.org._id,
 							})
@@ -208,7 +209,7 @@ function Organization(props) {
 					}
 
 					// Making changing in the ORG and USER
-					await authFetch(`/api/organizations/${data.org._id}`, reqObject)
+					await authFetch(config.api + `/api/organizations/${data.org._id}`, reqObject)
 
 					// Changing the button value
 					if (action === 'kick') {
@@ -339,7 +340,7 @@ function Organization(props) {
 					e.persist()
 
 					// Adding member
-					await authFetch(`/api/organizations/${data.org._id}`, {
+					await authFetch(config.api + `/api/organizations/${data.org._id}`, {
 						method: 'PUT',
 						headers: {
 							'Content-Type': 'application/json',
@@ -351,7 +352,7 @@ function Organization(props) {
 					})
 
 					// Deleting req
-					await authFetch(`/api/requests/${request._id}`, {
+					await authFetch(config.api + `/api/requests/${request._id}`, {
 						method: 'PUT',
 						headers: {
 							'Content-Type': 'application/json',
@@ -379,7 +380,7 @@ function Organization(props) {
 					e.persist()
 
 					// Deleting req
-					await authFetch(`/api/requests/${request._id}`, {
+					await authFetch(config.api + `/api/requests/${request._id}`, {
 						method: 'DELETE',
 						headers: {
 							'Content-Type': 'application/json',
@@ -430,7 +431,7 @@ function Organization(props) {
 	const ReqToJoin = async () => {
 		if (isMember || isRequested) return
 
-		await authFetch('/api/requests', {
+		await authFetch(config.api + '/api/requests', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -445,7 +446,7 @@ function Organization(props) {
 	// On leave
 	const onLeave = async () => {
 		try {
-			await authFetch(`/api/organizations/${data.org._id}`, {
+			await authFetch(config.api + `/api/organizations/${data.org._id}`, {
 				method: 'DELETE',
 				headers: {
 					'Content-type': 'application/json',

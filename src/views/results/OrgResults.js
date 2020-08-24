@@ -2,11 +2,12 @@ import React from 'react'
 import { Card, CardHeader, Table } from 'reactstrap'
 import { useQuery } from 'react-query'
 import { Link } from 'react-router-dom'
+import { config } from '../../../config'
 
 function OrgResults(props) {
 	// Gets data from database
 	const getOrg = async () => {
-		let orgs = await fetch('/api/organizations/search?' + new URLSearchParams(props.query))
+		let orgs = await fetch(config.api + '/api/organizations/search?' + new URLSearchParams(props.query))
 		return await orgs.json()
 	}
 

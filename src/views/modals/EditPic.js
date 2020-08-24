@@ -3,6 +3,7 @@ import { authFetch } from '../../AuthProvider.ts'
 
 // reactstrap components
 import { Button, Card, CardHeader, CardBody, Col, Row, Modal } from 'reactstrap'
+import { config } from '../../../config'
 
 function EditPic(props) {
 	// Toggle state
@@ -14,7 +15,7 @@ function EditPic(props) {
 	// Updates image field of user
 	const onClickHandle = async name => {
 		try {
-			await authFetch(`/api/users/${props.userId}`, {
+			await authFetch(config.api + `/api/users/${props.userId}`, {
 				method: 'PUT',
 				headers: {
 					'Content-Type': 'application/json',

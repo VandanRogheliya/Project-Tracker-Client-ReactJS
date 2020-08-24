@@ -15,6 +15,7 @@ import {
 	Button,
 	Form,
 } from 'reactstrap'
+import { config } from '../../../config'
 
 function NewOrg(props) {
 	// Stores form input
@@ -44,7 +45,7 @@ function NewOrg(props) {
 		try {
 			// Duplicate org title check
 			let orgs = await fetch(
-				'/api/organizations?' +
+				config.api + '/api/organizations?' +
 					new URLSearchParams({
 						title: form.title,
 					})
@@ -71,7 +72,7 @@ function NewOrg(props) {
 			setForm(formTemp)
 
 			// Posting new organization
-			await authFetch('/api/organizations', {
+			await authFetch(config.api + '/api/organizations', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',

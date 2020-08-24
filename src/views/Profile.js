@@ -20,6 +20,7 @@ import {
 import UserHeader from '../components/Headers/UserHeader'
 import InfoStatus from './InfoStatus'
 import EditPic from './modals/EditPic'
+import { config } from '../../config'
 
 function Profile() {
 	// Form State
@@ -40,12 +41,12 @@ function Profile() {
 
 	// Gets user data
 	const getUser = async () => {
-		let checkJWTtoken = await authFetch('/api/users/checkJWTtoken')
+		let checkJWTtoken = await authFetch(config.api + '/api/users/checkJWTtoken')
 		checkJWTtoken = await checkJWTtoken.json()
 
 		// If token is valid, user data is fetched also use is logged out
 		if (checkJWTtoken.success) {
-			let user = await fetch(`/api/users/${checkJWTtoken.user._id}`)
+			let user = await fetch(config.api + `/api/users/${checkJWTtoken.user._id}`)
 			user = await user.json()
 
 			return user
@@ -86,7 +87,7 @@ function Profile() {
 		// Checks only if username is changed
 		if (formTemp.username !== data.username) {
 			// Fetches all the users with the input username
-			let users = await fetch('/api/users?' + new URLSearchParams({ username: formTemp.username }))
+			let users = await fetch(config.api + '/api/users?' + new URLSearchParams({ username: formTemp.username }))
 
 			users = await users.json()
 
@@ -97,7 +98,7 @@ function Profile() {
 			}
 		}
 
-		await authFetch(`/api/users/${data._id}`, {
+		await authFetch(config.api + `/api/users/${data._id}`, {
 			method: 'PUT',
 			headers: {
 				'Content-Type': 'application/json',

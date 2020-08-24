@@ -2,11 +2,12 @@ import React from 'react'
 import { Card, CardHeader, Table } from 'reactstrap'
 import { useQuery } from 'react-query'
 import { Link } from 'react-router-dom'
+import { config } from '../../../config'
 
 function IssueResults(props) {
 	// Gets data from database
 	const getIssues = async () => {
-		let issues = await fetch('/api/issues/search?' + new URLSearchParams(props.query))
+		let issues = await fetch(config.api + '/api/issues/search?' + new URLSearchParams(props.query))
 		return await issues.json()
 	}
 

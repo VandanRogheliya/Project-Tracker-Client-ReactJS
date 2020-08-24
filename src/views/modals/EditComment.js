@@ -3,6 +3,7 @@ import { authFetch } from '../../AuthProvider.ts'
 
 import { Alert, Button, Card, CardHeader, CardBody, Col, FormGroup, Input, Row, Modal } from 'reactstrap'
 import DeleteAlert from './DeleteAlert'
+import { config } from '../../../config'
 
 const initialToggleState = {
 	editComment: false,
@@ -79,7 +80,7 @@ function EditComment(props) {
 					if (formTemp.fileName === '') {
 						// Deleting condition
 
-						await authFetch(`/api/comments/${props.comment._id}`, {
+						await authFetch(config.api + `/api/comments/${props.comment._id}`, {
 							method: 'DELETE',
 							headers: {
 								'Content-Type': 'application/json',
@@ -91,7 +92,7 @@ function EditComment(props) {
 						})
 					} else {
 						// Editing existing one
-						await authFetch(`/api/comments/${props.comment._id}`, {
+						await authFetch(config.api + `/api/comments/${props.comment._id}`, {
 							method: 'PUT',
 							headers: {
 								'Content-Type': 'application/json',
@@ -108,7 +109,7 @@ function EditComment(props) {
 					}
 				} else {
 					// New Attachment
-					await authFetch(`/api/comments/${props.comment._id}`, {
+					await authFetch(config.api + `/api/comments/${props.comment._id}`, {
 						method: 'PUT',
 						headers: {
 							'Content-Type': 'application/json',
@@ -128,7 +129,7 @@ function EditComment(props) {
 
 			// Updating other info
 			// Not using the whole as the body because it may change attachments
-			await authFetch(`/api/comments/${props.comment._id}`, {
+			await authFetch(config.api + `/api/comments/${props.comment._id}`, {
 				method: 'PUT',
 				headers: {
 					'Content-Type': 'application/json',
@@ -146,7 +147,7 @@ function EditComment(props) {
 
 	// Deleting the comment
 	const deleteComment = async () => {
-		await authFetch(`/api/comments/${props.comment._id}`, {
+		await authFetch(config.api + `/api/comments/${props.comment._id}`, {
 			method: 'DELETE',
 			headers: {
 				'Content-Type': 'application/json',
