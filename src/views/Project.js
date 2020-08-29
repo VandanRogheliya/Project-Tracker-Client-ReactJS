@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useReducer } from 'react'
 import { useQuery } from 'react-query'
 import { authFetch } from '../AuthProvider.ts'
 import { Link } from 'react-router-dom'
@@ -9,9 +9,29 @@ import Header from '../components/Headers/Header'
 import EditProject from './modals/EditProject'
 import InfoStatus from './InfoStatus'
 import { config } from '../config'
+import NewIssue from './modals/NewIssue'
+
+const initialToggleState = {
+	editProject: false,
+	deleteProject: false,
+	newIssue: false,
+}
+
+const toggleReducer = (state, action) => {
+	switch (action) {
+		case 'editProject':
+			return { ...state, editProject: !state.editProject }
+		case 'deleteProject':
+			return { ...state, deleteProject: !state.deleteProject }
+		case 'newIssue':
+			return { ...state, newIssue: !state.newIssue }
+		default:
+			return state
+	}
+}
 
 function Project(props) {
-	const [toggles, setToggles] = useState([false, false])
+	const [toggles, toggleModal] = useReducer(toggleReducer, initialToggleState)
 
 	// Flags
 	const [isAdmin, setIsAdmin] = useState(false)
@@ -43,7 +63,8 @@ function Project(props) {
 
 			// Fetching issues
 			const issues = await fetch(
-				config.api + '/api/issues?' +
+				config.api +
+					'/api/issues?' +
 					new URLSearchParams({
 						project: response.project._id,
 					})
@@ -63,9 +84,8 @@ function Project(props) {
 					break
 				}
 			}
-
+			response.user = user.user
 			return response
-			
 		} catch (err) {
 			// Logs the error
 			console.log(err)
@@ -78,16 +98,11 @@ function Project(props) {
 	const { status, data } = useQuery('project', getProject)
 
 	if (status === 'loading') {
-		return  <InfoStatus status="loading" />
+		return <InfoStatus status="loading" />
 	}
 
 	if (status === 'error') {
 		return <InfoStatus status="error" />
-	}
-
-	const toggleModal = option => {
-		if (option === 'editProject') setToggles([!toggles[0], toggles[1]])
-		else if (option === 'deleteProject') setToggles([toggles[0], !toggles[1]])
 	}
 
 	// Populating Tech and Tools
@@ -136,7 +151,6 @@ function Project(props) {
 	if (!data.project.organization) {
 		return <div>Org was deleted, project not accessable</div>
 	}
-
 
 	return (
 		<>
@@ -224,8 +238,18 @@ function Project(props) {
 									{/* Edit */}
 									{isAdmin && (
 										<Col className="text-right" xs="12">
+											<Button color="primary" onClick={() => toggleModal('newIssue')} size="sm">
+												File New Issue
+											</Button>
+											<NewIssue
+												toggle={toggles.newIssue}
+												toggleModal={() => toggleModal('newIssue')}
+												user={data.user}
+												org={data.project.organization.title}
+												project={data.project.title}
+											/>
 											<Button
-												color="primary"
+												color="secondary"
 												href="#pablo"
 												onClick={() => toggleModal('editProject')}
 												size="sm"
@@ -233,9 +257,9 @@ function Project(props) {
 												Edit
 											</Button>
 											<EditProject
-												toggle={toggles[0]}
+												toggle={toggles.editProject}
 												toggleModal={() => toggleModal('editProject')}
-												deleteToggle={toggles[1]}
+												deleteToggle={toggles.deleteProject}
 												deleteToggleModal={() => toggleModal('deleteProject')}
 												project={data.project}
 											/>

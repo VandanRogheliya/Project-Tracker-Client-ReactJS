@@ -49,6 +49,7 @@ function EditProject(props) {
 		try {
 			// Empty Check
 			if (!form.details || !form.techStack) {
+				setIsLoading(false)
 				setIsEmpty(true)
 				return
 			}

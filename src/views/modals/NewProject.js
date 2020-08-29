@@ -22,7 +22,7 @@ function NewProject(props) {
 	const [form, setForm] = useState({
 		title: '',
 		details: '',
-		organization: '',
+		organization: props.org ? props.org : '',
 		projectId: '',
 		techStack: '',
 	})
@@ -51,6 +51,7 @@ function NewProject(props) {
 		try {
 			// Empty Check
 			if (!form.title || !form.details || !form.organization) {
+				setIsLoading(false)
 				setIsEmpty(true)
 				return
 			}
@@ -176,6 +177,7 @@ function NewProject(props) {
 											type="text"
 											name="organization"
 											onChange={onChangeHandle}
+											defaultValue={props.org ? props.org : ''}
 										/>
 									</FormGroup>
 								</Col>

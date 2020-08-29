@@ -82,6 +82,7 @@ function Profile() {
 
 			// Checks if there are any missing field
 			if (!formTemp.username || !formTemp.email || !formTemp.firstName || !formTemp.lastName) {
+				setIsLoading(false)
 				setIsMissing(true)
 				return
 			}
@@ -97,7 +98,8 @@ function Profile() {
 
 				// Checks if there is a user with that username
 				if (users.length) {
-					setIsTaken(true)
+				setIsLoading(false)
+				setIsTaken(true)
 					return
 				}
 			}

@@ -13,6 +13,7 @@ import EditOrg from './modals/EditOrg'
 import AddUser from './modals/AddUser'
 import InfoStatus from './InfoStatus'
 import { config } from '../config'
+import NewProject from './modals/NewProject'
 
 // For Toggles
 const initialState = {
@@ -21,6 +22,7 @@ const initialState = {
 	addMember: false,
 	leaveAlert: false,
 	requests: false,
+	newProject: false,
 }
 
 // For Kicked Users
@@ -39,16 +41,12 @@ const reducer = (state, action) => {
 			return { ...state, leaveAlert: !state.leaveAlert }
 		case 'requests':
 			return { ...state, requests: !state.requests }
+		case 'newProject':
+			return { ...state, newProject: !state.newProject }
 		default:
 			return state
 	}
 }
-
-// TODO:
-// If user is assigned an issue then he can not be kicked
-// Same with if he is a reviewer
-// Solution: Just run a get request on issues when you are kicking users
-// If you find issues with assignee or reviewer as that user then throw error
 
 function Organization(props) {
 	//Toggling Modals
@@ -616,7 +614,15 @@ function Organization(props) {
 									{isAdmin ? (
 										<Col className="text-right" xs="12">
 											{/* Requests */}
-											<Button color="primary" href="#pablo" onClick={() => toggleModal('requests')} size="sm">
+											<Button color="primary" onClick={() => toggleModal('newProject')} size="sm">
+												Start New Project
+											</Button>
+											<NewProject
+												toggle={toggles.newProject}
+												toggleModal={() => toggleModal('newProject')}
+												org={data.org.title}
+											/>
+											<Button color="secondary" href="#pablo" onClick={() => toggleModal('requests')} size="sm">
 												Requests
 											</Button>
 											{/* Request Modal */}

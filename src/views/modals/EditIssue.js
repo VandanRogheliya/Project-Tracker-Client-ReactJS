@@ -84,6 +84,8 @@ function EditIssue(props) {
 			// Empty Check
 			if (!formTemp.details || !formTemp.tags || (formTemp.fileName === '') ^ (formTemp.fileLink === '')) {
 				setIsEmpty(true)
+				setIsLoading(false)
+
 				return
 			}
 

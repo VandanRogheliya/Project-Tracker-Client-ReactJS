@@ -56,12 +56,14 @@ function NewOrg(props) {
 			orgs = await orgs.json()
 
 			if (orgs.length) {
+				setIsLoading(false)
 				setIsTaken(true)
 				return
 			}
 
 			// Empty Check
 			if (!form.title || !form.details) {
+				setIsLoading(false)
 				setIsEmpty(true)
 				return
 			}

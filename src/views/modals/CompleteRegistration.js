@@ -21,16 +21,13 @@ function CompleteRegistration(props) {
 
 	const [isMissing, setIsMissing] = useState(false)
 	const [isTaken, setIsTaken] = useState(false)
+	const [isLoading, setIsLoading] = useState(false)
 
 	// State to store form fields
 	const [form, setForm] = useState({
-		// username: props.user.username,
-		// email: props.user.email,
-		// firstName: props.user.firstName,
-		// lastName: props.user.lastName,
 		username: '',
 		email: '',
-		firstName:'',
+		firstName: '',
 		lastName: '',
 	})
 
@@ -43,35 +40,45 @@ function CompleteRegistration(props) {
 
 	// On Submit form is PUT to the backend
 	const onSubmit = async () => {
-		// Checks if there are any missing field
-		if (!form.username || !form.email || !form.firstName || !form.lastName) {
-			setIsMissing(true)
-			return
+		setIsLoading(true)
+
+		try {
+			// Checks if there are any missing field
+			if (!form.username || !form.email || !form.firstName || !form.lastName) {
+				setIsLoading(false)
+				setIsMissing(true)
+				return
+			}
+
+			if (isMissing) setIsMissing(false)
+
+			// Fetches all the users with the input username
+			let users = await fetch(config.api + '/api/users?' + new URLSearchParams({ username: form.username }))
+
+			users = await users.json()
+
+			// Checks if there is a user with that username
+			if (users.length) {
+				setIsLoading(false)
+				setIsTaken(true)
+				return
+			}
+
+			await authFetch(config.api + `/api/users/${props.user._id}`, {
+				method: 'PUT',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(form),
+			})
+
+			// A flag which is set true when user successfully signs up
+			props.setCompleted(1)
+			setIsLoading(false)
+		} catch (err) {
+			setIsLoading(false)
+			console.log(err)
 		}
-
-		if (isMissing) setIsMissing(false)
-
-		// Fetches all the users with the input username
-		let users = await fetch(config.api + '/api/users?' + new URLSearchParams({ username: form.username }))
-
-		users = await users.json()
-
-		// Checks if there is a user with that username
-		if (users.length) {
-			setIsTaken(true)
-			return
-		}
-
-		await authFetch(config.api + `/api/users/${props.user._id}`, {
-			method: 'PUT',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify(form),
-		})
-
-		// A flag which is set true when user successfully signs up
-		props.setCompleted(1)
 	}
 
 	// If user is now logged in and completed registration then redirected to dashboard
@@ -155,7 +162,12 @@ function CompleteRegistration(props) {
 									<strong>Username is already taken.</strong> Please choose other username.
 								</Alert>
 							) : null}
-							<Button color="primary" size="sm" onClick={() => onSubmit()} className="">
+							{isLoading ? (
+								<Alert color="info">
+									<strong>Loading...</strong>
+								</Alert>
+							) : null}
+							<Button color="primary" size="sm" onClick={() => onSubmit()} disabled={isLoading}>
 								Submit
 							</Button>
 						</Form>

@@ -22,8 +22,8 @@ function NewIssue(props) {
 	const [form, setForm] = useState({
 		title: '',
 		details: '',
-		organization: '',
-		project: '',
+		organization: props.org,
+		project: props.project,
 		issueId: '',
 		fileName: '',
 		fileLink: '',
@@ -49,6 +49,7 @@ function NewIssue(props) {
 	const onSubmitHandle = async () => {
 		setIsTaken(false)
 		setIsEmpty(false)
+		setIsMissing(false)
 		setIsNotAuth(false)
 		setIsLoading(true)
 
@@ -62,6 +63,7 @@ function NewIssue(props) {
 				!form.tags ||
 				(form.fileName === '') ^ (form.fileLink === '')
 			) {
+				setIsLoading(false)
 				setIsEmpty(true)
 				return
 			}
@@ -97,7 +99,6 @@ function NewIssue(props) {
 				setIsMissing(true)
 				throw new Error('Project not found')
 			}
-
 			// Member check
 			if (orgs[0].members.map(e => e.user._id).indexOf(props.user._id) === -1) {
 				setIsNotAuth(true)
@@ -249,6 +250,7 @@ function NewIssue(props) {
 											type="text"
 											onChange={onChangeHandle}
 											name="organization"
+											defaultValue={props.org}
 										/>
 									</FormGroup>
 								</Col>
@@ -262,6 +264,7 @@ function NewIssue(props) {
 											type="text"
 											onChange={onChangeHandle}
 											name="project"
+											defaultValue={props.project}
 										/>
 									</FormGroup>
 								</Col>

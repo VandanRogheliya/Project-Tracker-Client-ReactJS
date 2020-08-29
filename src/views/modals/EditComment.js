@@ -65,6 +65,7 @@ function EditComment(props) {
 			// Empty Check
 			if (!formTemp.comment || (formTemp.fileName === '') ^ (formTemp.fileLink === '')) {
 				setIsEmpty(true)
+				setIsLoading(false)
 				return
 			}
 

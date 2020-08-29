@@ -44,7 +44,9 @@ function Comments(props) {
 			comments = await comments.json()
 
 			return comments
-		} catch (err) {}
+		} catch (err) {
+			console.log(err)
+		}
 	}
 
 	const { status, data } = useQuery('comments', getComments)
@@ -62,6 +64,7 @@ function Comments(props) {
 		try {
 			// Empty Check
 			if (!form.comment || (form.fileName === '') ^ (form.fileLink === '')) {
+				setIsLoading(false)
 				setIsEmpty(true)
 				return
 			}

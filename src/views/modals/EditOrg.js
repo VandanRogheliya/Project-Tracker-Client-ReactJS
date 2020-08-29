@@ -28,6 +28,7 @@ function EditOrg(props) {
 		try {
 			// Empty Check
 			if (!form.details) {
+				setIsLoading(false)
 				setIsEmpty(true)
 				return
 			}
