@@ -36,6 +36,7 @@ function NewIssue(props) {
 	const [isEmpty, setIsEmpty] = useState(false)
 	const [isMissing, setIsMissing] = useState(false)
 	const [isNotAuth, setIsNotAuth] = useState(false)
+	const [isLoading, setIsLoading] = useState(false)
 
 	// Updates state when input changes
 	const onChangeHandle = ({ target }) => {
@@ -49,6 +50,7 @@ function NewIssue(props) {
 		setIsTaken(false)
 		setIsEmpty(false)
 		setIsNotAuth(false)
+		setIsLoading(true)
 
 		try {
 			// Empty Check
@@ -66,7 +68,8 @@ function NewIssue(props) {
 
 			// Org Check
 			let orgs = await fetch(
-				config.api + '/api/organizations?' +
+				config.api +
+					'/api/organizations?' +
 					new URLSearchParams({
 						title: form.organization,
 					})
@@ -81,7 +84,8 @@ function NewIssue(props) {
 
 			// Project Check
 			let project = await fetch(
-				config.api + '/api/projects?' +
+				config.api +
+					'/api/projects?' +
 					new URLSearchParams({
 						title: form.project,
 					})
@@ -93,16 +97,17 @@ function NewIssue(props) {
 				setIsMissing(true)
 				throw new Error('Project not found')
 			}
-			
+
 			// Member check
 			if (orgs[0].members.map(e => e.user._id).indexOf(props.user._id) === -1) {
 				setIsNotAuth(true)
-				throw new Error('Not Authorized')	
+				throw new Error('Not Authorized')
 			}
 
 			// Duplicate issue title check
 			let issues = await fetch(
-				config.api + '/api/issues?' +
+				config.api +
+					'/api/issues?' +
 					new URLSearchParams({
 						title: form.title,
 						organization: orgs[0]._id,
@@ -150,8 +155,10 @@ function NewIssue(props) {
 				body: JSON.stringify(formTemp),
 			})
 
+			setIsLoading(false)
 			setIsSaved(true)
 		} catch (err) {
+			setIsLoading(false)
 			console.log(err)
 		}
 	}
@@ -296,20 +303,34 @@ function NewIssue(props) {
 							) : null}
 							{isNotAuth ? (
 								<Alert color="warning">
-									<strong>You are not a member of the organization.</strong> Please become a member before filing an issue for its project.
+									<strong>You are not a member of the organization.</strong> Please become a member before
+									filing an issue for its project.
 								</Alert>
 							) : null}
 
 							{isSaved ? (
 								<Alert color="success">
 									<strong>Issue Posted successfully! </strong>
-									Issue will be approved after an admin form the organization approves it. Issue ID: {form.issueId}
+									Issue will be approved after an admin form the organization approves it. Issue ID:{' '}
+									{form.issueId}
 								</Alert>
 							) : null}
-							<Button color="primary" href="#pablo" onClick={onSubmitHandle} size="sm" className="">
+
+							{isLoading ? (
+								<Alert color="info">
+									<strong>Loading...</strong>
+								</Alert>
+							) : null}
+							<Button color="primary" href="#pablo" onClick={onSubmitHandle} size="sm" disabled={isLoading}>
 								Send for Approval
 							</Button>
-							<Button color="danger" href="#pablo" onClick={() => props.toggleModal()} size="sm" className="">
+							<Button
+								color="danger"
+								href="#pablo"
+								onClick={() => props.toggleModal()}
+								size="sm"
+								disabled={isLoading}
+							>
 								Close
 							</Button>
 						</Form>

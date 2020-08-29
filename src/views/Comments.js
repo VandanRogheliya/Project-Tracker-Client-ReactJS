@@ -24,6 +24,7 @@ import { config } from '../config'
 
 function Comments(props) {
 	const [isEmpty, setIsEmpty] = useState(false)
+	const [isLoading, setIsLoading] = useState(false)
 
 	const [form, setForm] = useState({
 		comment: '',
@@ -34,7 +35,8 @@ function Comments(props) {
 	const getComments = async () => {
 		try {
 			let comments = await authFetch(
-				config.api + '/api/comments?' +
+				config.api +
+					'/api/comments?' +
 					new URLSearchParams({
 						issue: props.issueId,
 					})
@@ -56,7 +58,7 @@ function Comments(props) {
 	// Posts data to backend and performs checks
 	const onSubmitHandle = async () => {
 		setIsEmpty(false)
-
+		setIsLoading(true)
 		try {
 			// Empty Check
 			if (!form.comment || (form.fileName === '') ^ (form.fileLink === '')) {
@@ -88,6 +90,7 @@ function Comments(props) {
 			})
 			window.location.reload()
 		} catch (err) {
+			setIsLoading(false)
 			console.log(err)
 		}
 	}
@@ -104,9 +107,10 @@ function Comments(props) {
 							<Col xs="8" className="d-none d-lg-block">
 								<Media className="align-items-center">
 									<span className="avatar avatar-sm rounded-circle">
-										<img alt="..." 
-										// src={`https://project-t-api.herokuapp.com/images/${comment.author.image}`} 
-										src={require(`../assets/img/avatars/${comment.author.image}`)}
+										<img
+											alt="..."
+											// src={`https://project-t-api.herokuapp.com/images/${comment.author.image}`}
+											src={require(`../assets/img/avatars/${comment.author.image}`)}
 										/>
 									</span>
 									<Media className="ml-2 d-none d-lg-block">
@@ -252,7 +256,18 @@ function Comments(props) {
 										<strong>Please fill all required fields.</strong>
 									</Alert>
 								) : null}
-								<Button color="primary" href="#pablo" onClick={() => onSubmitHandle()} size="sm">
+								{isLoading ? (
+									<Alert color="info">
+										<strong>Loading...</strong>
+									</Alert>
+								) : null}
+								<Button
+									color="primary"
+									href="#pablo"
+									onClick={() => onSubmitHandle()}
+									size="sm"
+									disabled={isLoading}
+								>
 									Comment
 								</Button>
 							</Form>

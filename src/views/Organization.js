@@ -46,7 +46,7 @@ const reducer = (state, action) => {
 
 // TODO:
 // If user is assigned an issue then he can not be kicked
-// Same with if he is a reviewer 
+// Same with if he is a reviewer
 // Solution: Just run a get request on issues when you are kicking users
 // If you find issues with assignee or reviewer as that user then throw error
 
@@ -89,7 +89,8 @@ function Organization(props) {
 			// This makes URL= `/api/projects?organization=${response.org._id}` meaning:
 			// searching projects with organization field === org._id
 			const projects = await fetch(
-				config.api + '/api/projects?' +
+				config.api +
+					'/api/projects?' +
 					new URLSearchParams({
 						organization: response.org._id,
 					})
@@ -123,7 +124,8 @@ function Organization(props) {
 				// Using temp for immediate effect
 				if (!isMemberTemp) {
 					let requests = await fetch(
-						config.api + '/api/requests?' +
+						config.api +
+							'/api/requests?' +
 							new URLSearchParams({
 								organization: response.org._id,
 								user: response.user._id,
@@ -136,7 +138,8 @@ function Organization(props) {
 					}
 				} else if (isAdminTemp) {
 					let requests = await fetch(
-						config.api + '/api/requests?' +
+						config.api +
+							'/api/requests?' +
 							new URLSearchParams({
 								organization: response.org._id,
 							})
@@ -160,7 +163,7 @@ function Organization(props) {
 
 	// Loading Status
 	if (status === 'loading') {
-		return  <InfoStatus status="loading" />
+		return <InfoStatus status="loading" />
 	}
 
 	// Error Status
@@ -174,6 +177,8 @@ function Organization(props) {
 		return members.map((member, key) => {
 			// Kicking, Promoting or Demoting the member
 			const onClickHandle = async (e, action) => {
+				e.target.disabled = true
+
 				// Setting up the req
 				let reqObject = {
 					method: 'DELETE',
@@ -183,17 +188,20 @@ function Organization(props) {
 				}
 
 				if (action === 'kick') {
+					e.target.previousSibling.disabled = true
 					reqObject.body = JSON.stringify({
 						organization: data.org._id,
 						members: [{ user: member.user.username }],
 					})
 				} else if (action === 'promote') {
+					e.target.nextSibling.disabled = true
 					reqObject.method = 'PUT'
 					reqObject.body = JSON.stringify({
 						organization: data.org._id,
 						admins: [{ user: member.user.username }],
 					})
 				} else if (action === 'demote') {
+					e.target.nextSibling.disabled = true
 					reqObject.body = JSON.stringify({
 						organization: data.org._id,
 						admins: [{ user: member.user.username }],
@@ -224,9 +232,14 @@ function Organization(props) {
 					} else if (action === 'demote') {
 						e.target.value = 'Demoted'
 					}
+
+					window.location.reload()
 				} catch (err) {
 					// Setting the button value to error
 					e.target.value = 'Error'
+					e.target.disabled = false
+					if (e.target.nextSibling) e.target.nextSibling.disabled = false
+					else e.target.previousSibling.disabled = false
 					console.log(err)
 				}
 			}
@@ -334,6 +347,8 @@ function Organization(props) {
 			// Adds user as a member and req is deleted
 			const onAccept = async e => {
 				e.preventDefault()
+				e.target.disabled = true
+				e.target.parentElement.nextSibling.childNodes[0].disabled = true
 
 				try {
 					// To solve problem with React SyntheticEvent
@@ -365,15 +380,22 @@ function Organization(props) {
 
 					// Updating button value
 					e.target.value = 'User Added'
+
+					window.location.reload()
 				} catch (err) {
 					// Button value in case of error
 					e.target.value = 'Error'
+
+					e.target.disabled = false
+					e.target.parentElement.nextSibling.childNodes[0].disabled = false
 				}
 			}
 
 			// Deletes the request
 			const onDecline = async e => {
 				e.preventDefault()
+				e.target.disabled = true
+				e.target.parentElement.previousSibling.childNodes[0].disabled = true
 
 				try {
 					// to solve problems with React SyntheticEvent
@@ -392,9 +414,12 @@ function Organization(props) {
 
 					// Updating button value
 					e.target.value = 'Request Deleted'
+					window.location.reload()
 				} catch (err) {
 					// Button value in case error
 					e.target.value = 'Error'
+					e.target.disabled = false
+					e.target.parentElement.previousSibling.childNodes[0].disabled = false
 				}
 			}
 
@@ -707,24 +732,23 @@ function Organization(props) {
 											<CardHeader className="bg-transparent border-0">
 												<h3 className="text-white mb-0">Projects</h3>
 											</CardHeader>
-											{data.projects.length?
-											<Table className="align-items-center table-dark table-flush" responsive>
-												<thead className="thead-dark">
-													<tr>
-														<th scope="col">Project</th>
-														<th scope="col">Tech</th>
-														<th scope="col">ID</th>
-														<th scope="col">Open Date</th>
-													</tr>
-												</thead>
-												<tbody>{projects(data.projects)}</tbody>
-											</Table>
-
-											:
-											<CardBody className="pt-0">
+											{data.projects.length ? (
+												<Table className="align-items-center table-dark table-flush" responsive>
+													<thead className="thead-dark">
+														<tr>
+															<th scope="col">Project</th>
+															<th scope="col">Tech</th>
+															<th scope="col">ID</th>
+															<th scope="col">Open Date</th>
+														</tr>
+													</thead>
+													<tbody>{projects(data.projects)}</tbody>
+												</Table>
+											) : (
+												<CardBody className="pt-0">
 													<h4 className="text-white font-weight-light mb-0">No Projects Yet</h4>
 												</CardBody>
-											}
+											)}
 										</Card>
 									</div>
 								</Row>

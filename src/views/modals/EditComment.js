@@ -25,8 +25,10 @@ function EditComment(props) {
 	const [form, setForm] = useState({ comment: props.comment.comment, fileName: null, fileLink: null })
 	const [toggles, toggleModal] = useReducer(toggleReducer, initialToggleState)
 
-	// Flag
+	// Flags
 	const [isEmpty, setIsEmpty] = useState(false)
+	const [isLoading, setIsLoading] = useState(false)
+
 
 	// Updates state when input changes
 	const onChangeHandle = ({ target }) => {
@@ -37,6 +39,7 @@ function EditComment(props) {
 	// Posts data to backend and performs checks
 	const onSubmitHandle = async () => {
 		setIsEmpty(false)
+		setIsLoading(true)
 
 		try {
 			// Easy updating of form so
@@ -141,20 +144,27 @@ function EditComment(props) {
 			})
 			window.location.reload()
 		} catch (err) {
+			setIsLoading(false)
 			console.log(err)
 		}
 	}
 
 	// Deleting the comment
 	const deleteComment = async () => {
-		await authFetch(config.api + `/api/comments/${props.comment._id}`, {
-			method: 'DELETE',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify({ delete: true, organization: props.comment.issue.organization }),
-		})
-		window.location.reload()
+			setIsLoading(true)
+			try {
+			await authFetch(config.api + `/api/comments/${props.comment._id}`, {
+				method: 'DELETE',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({ delete: true, organization: props.comment.issue.organization }),
+			})
+			window.location.reload()
+		} catch (err) {
+			setIsLoading(false)
+			console.log(err)
+		}
 	}
 
 	return (
@@ -231,7 +241,18 @@ function EditComment(props) {
 									<strong>Please fill all fields.</strong>
 								</Alert>
 							) : null}
-							<Button color="success" href="#pablo" onClick={() => onSubmitHandle()} size="sm" className="">
+							{isLoading ? (
+								<Alert color="info">
+									<strong>Loading...</strong>
+								</Alert>
+							) : null}
+							<Button
+								color="success"
+								href="#pablo"
+								onClick={() => onSubmitHandle()}
+								size="sm"
+								disabled={isLoading}
+							>
 								Save
 							</Button>
 							<Button
@@ -239,11 +260,17 @@ function EditComment(props) {
 								href="#pablo"
 								onClick={() => toggleModal('editComment')}
 								size="sm"
-								className=""
+								disabled={isLoading}
 							>
 								Close
 							</Button>
-							<Button color="danger" href="#pablo" onClick={() => toggleModal('deleteComment')} size="sm">
+							<Button
+								color="danger"
+								href="#pablo"
+								onClick={() => toggleModal('deleteComment')}
+								size="sm"
+								disabled={isLoading}
+							>
 								Delete
 							</Button>
 							<DeleteAlert

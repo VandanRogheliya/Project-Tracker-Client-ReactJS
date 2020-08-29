@@ -32,6 +32,9 @@ function EditProject(props) {
 	// Delete flag
 	const [isDeleted, setIsDeleted] = useState(false)
 
+	// Loading flag
+	const [isLoading, setIsLoading] = useState(false)
+
 	// Updates state when input changes
 	const onChangeHandle = ({ target }) => {
 		const { name, value } = target
@@ -40,6 +43,7 @@ function EditProject(props) {
 
 	// Posts data to backend and performs checks
 	const onSubmitHandle = async () => {
+		setIsLoading(true)
 		setIsEmpty(false)
 
 		try {
@@ -66,23 +70,31 @@ function EditProject(props) {
 			})
 			window.location.reload()
 		} catch (err) {
+			setIsLoading(false)
 			console.log(err)
 		}
 	}
 
 	// Deletes project and redirects to org page
 	const deleteProject = async () => {
-		await authFetch(config.api + `/api/projects/${props.project._id}`, {
-			method: 'DELETE',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify({
-				organization: props.project.organization._id,
-			}),
-		})
+		setIsLoading(true)
+		try {
+			await authFetch(config.api + `/api/projects/${props.project._id}`, {
+				method: 'DELETE',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({
+					organization: props.project.organization._id,
+				}),
+			})
 
-		setIsDeleted(true)
+			setIsDeleted(true)
+		} catch (err) {
+			setIsLoading(false)
+
+			console.log(err)
+		}
 	}
 
 	if (isDeleted) {
@@ -143,7 +155,19 @@ function EditProject(props) {
 									<strong>Please fill all fields.</strong>
 								</Alert>
 							) : null}
-							<Button color="primary" href="#pablo" onClick={onSubmitHandle} size="sm" className="mt-1">
+							{isLoading ? (
+								<Alert color="info">
+									<strong>Loading...</strong>
+								</Alert>
+							) : null}
+							<Button
+								color="primary"
+								href="#pablo"
+								onClick={onSubmitHandle}
+								size="sm"
+								className="mt-1"
+								disabled={isLoading}
+							>
 								Update Project
 							</Button>
 							<Button
@@ -152,6 +176,7 @@ function EditProject(props) {
 								onClick={() => props.toggleModal()}
 								size="sm"
 								className="mt-1"
+								disabled={isLoading}
 							>
 								Close
 							</Button>
@@ -161,6 +186,7 @@ function EditProject(props) {
 								onClick={() => props.deleteToggleModal()}
 								size="sm"
 								className="mt-1"
+								disabled={isLoading}
 							>
 								Delete Project
 							</Button>

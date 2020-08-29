@@ -45,6 +45,9 @@ function EditIssue(props) {
 	// Delete flag
 	const [isDeleted, setIsDeleted] = useState(false)
 
+	// Loading flag
+	const [isLoading, setIsLoading] = useState(false)
+
 	// Updates state when input changes
 	const onChangeHandle = ({ target }) => {
 		const { name, value } = target
@@ -54,6 +57,7 @@ function EditIssue(props) {
 	// Posts data to backend and performs checks
 	const onSubmitHandle = async () => {
 		setIsEmpty(false)
+		setIsLoading(true)
 		setIsMissing(false)
 
 		try {
@@ -275,24 +279,31 @@ function EditIssue(props) {
 			})
 			window.location.reload()
 		} catch (err) {
+			setIsLoading(false)
 			console.log(err)
 		}
 	}
 
 	// Deletes issue and redirects to project page
 	const deleteIssue = async () => {
-		await authFetch(config.api + `/api/issues/${props.issue._id}`, {
-			method: 'DELETE',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify({
-				organization: props.issue.organization._id,
-				delete: true,
-			}),
-		})
+		setIsLoading(true)
+		try {
+			await authFetch(config.api + `/api/issues/${props.issue._id}`, {
+				method: 'DELETE',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({
+					organization: props.issue.organization._id,
+					delete: true,
+				}),
+			})
 
-		setIsDeleted(true)
+			setIsDeleted(true)
+		} catch (err) {
+			setIsLoading(false)
+			console.log(err)
+		}
 	}
 
 	if (isDeleted) {
@@ -521,12 +532,18 @@ function EditIssue(props) {
 									<strong>Assignee or Reviewer not found.</strong>
 								</Alert>
 							) : null}
+							{isLoading ? (
+								<Alert color="info">
+									<strong>Loading...</strong>
+								</Alert>
+							) : null}
 							<Button
 								color="primary"
 								href="#pablo"
 								onClick={() => onSubmitHandle()}
 								size="sm"
 								className="mt-1"
+								disabled={isLoading}
 							>
 								Update Issue
 							</Button>
@@ -536,6 +553,7 @@ function EditIssue(props) {
 								onClick={() => props.toggleModal()}
 								size="sm"
 								className="mt-1"
+								disabled={isLoading}
 							>
 								Close
 							</Button>
@@ -546,6 +564,7 @@ function EditIssue(props) {
 								onClick={() => props.deletetoggleModal()}
 								size="sm"
 								className="mt-1"
+								disabled={isLoading}
 							>
 								Delete Issue
 							</Button>

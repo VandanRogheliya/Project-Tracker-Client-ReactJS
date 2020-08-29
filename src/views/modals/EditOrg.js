@@ -13,6 +13,7 @@ function EditOrg(props) {
 	const [isEmpty, setIsEmpty] = useState(false)
 
 	const [isDeleted, setIsDeleted] = useState(false)
+	const [isLoading, setIsLoading] = useState(false)
 
 	// Updates state when input changes
 	const onChangeHandle = ({ target }) => {
@@ -22,6 +23,7 @@ function EditOrg(props) {
 
 	// Posts data to backend and performs checks
 	const onSubmitHandle = async () => {
+		setIsLoading(true)
 		setIsEmpty(false)
 		try {
 			// Empty Check
@@ -45,20 +47,27 @@ function EditOrg(props) {
 
 			window.location.reload()
 		} catch (err) {
+			setIsLoading(false)
 			console.log(err)
 		}
 	}
 
 	const deleteOrg = async () => {
-		await authFetch(config.api + `/api/organizations/${props.orgID}`, {
-			method: 'DELETE',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify({ delete: true, organization: props.orgID }),
-		})
+		setIsLoading(true)
+		try {
+			await authFetch(config.api + `/api/organizations/${props.orgID}`, {
+				method: 'DELETE',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({ delete: true, organization: props.orgID }),
+			})
 
-		setIsDeleted(true)
+			setIsDeleted(true)
+		} catch (err) {
+			setIsLoading(false)
+			console.log(err)
+		}
 	}
 
 	if (isDeleted) {
@@ -102,13 +111,18 @@ function EditOrg(props) {
 									<strong>Please fill all fields.</strong>
 								</Alert>
 							) : null}
-						
+							{isLoading ? (
+								<Alert color="info">
+									<strong>Loading...</strong>
+								</Alert>
+							) : null}
 							<Button
 								color="primary"
 								href="#pablo"
 								onClick={() => onSubmitHandle()}
 								size="sm"
 								className="mt-1"
+								disabled={isLoading}
 							>
 								Update Organization
 							</Button>
@@ -118,6 +132,7 @@ function EditOrg(props) {
 								onClick={() => props.toggleModal()}
 								size="sm"
 								className="mt-1"
+								disabled={isLoading}
 							>
 								Close
 							</Button>
@@ -129,6 +144,7 @@ function EditOrg(props) {
 									onClick={() => props.deleteToggleModal()}
 									size="sm"
 									className="mt-1"
+									disabled={isLoading}
 								>
 									Delete Organization
 								</Button>

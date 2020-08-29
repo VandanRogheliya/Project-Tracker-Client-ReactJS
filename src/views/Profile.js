@@ -37,7 +37,8 @@ function Profile() {
 	// Taken username
 	const [isTaken, setIsTaken] = useState(false)
 
-	// User info saved
+	// Loading
+	const [isLoading, setIsLoading] = useState(false)
 
 	// Gets user data
 	const getUser = async () => {
@@ -64,53 +65,58 @@ function Profile() {
 
 	// Performs checks on the form and updates user info
 	const onSubmit = async () => {
-		let formTemp = form
-
-		// If fields are unchanged they are filled up with original value
-		if (formTemp.username === -1) formTemp.username = data.username
-		if (formTemp.email === -1) formTemp.email = data.email
-		if (formTemp.firstName === -1) formTemp.firstName = data.firstName
-		if (formTemp.lastName === -1) formTemp.lastName = data.lastName
-
 		// Reseting alerts
 		setIsMissing(false)
 		setIsTaken(false)
 
-		// Checks if there are any missing field
-		if (!formTemp.username || !formTemp.email || !formTemp.firstName || !formTemp.lastName) {
-			setIsMissing(true)
-			return
-		}
+		setIsLoading(true)
 
-		if (isMissing) setIsMissing(false)
+		try {
+			let formTemp = form
 
-		// Checks only if username is changed
-		if (formTemp.username !== data.username) {
-			// Fetches all the users with the input username
-			let users = await fetch(config.api + '/api/users?' + new URLSearchParams({ username: formTemp.username }))
+			// If fields are unchanged they are filled up with original value
+			if (formTemp.username === -1) formTemp.username = data.username
+			if (formTemp.email === -1) formTemp.email = data.email
+			if (formTemp.firstName === -1) formTemp.firstName = data.firstName
+			if (formTemp.lastName === -1) formTemp.lastName = data.lastName
 
-			users = await users.json()
-
-			// Checks if there is a user with that username
-			if (users.length) {
-				setIsTaken(true)
+			// Checks if there are any missing field
+			if (!formTemp.username || !formTemp.email || !formTemp.firstName || !formTemp.lastName) {
+				setIsMissing(true)
 				return
 			}
+
+			// Checks only if username is changed
+			if (formTemp.username !== data.username) {
+				// Fetches all the users with the input username
+				let users = await fetch(
+					config.api + '/api/users?' + new URLSearchParams({ username: formTemp.username })
+				)
+
+				users = await users.json()
+
+				// Checks if there is a user with that username
+				if (users.length) {
+					setIsTaken(true)
+					return
+				}
+			}
+
+			await authFetch(config.api + `/api/users/${data._id}`, {
+				method: 'PUT',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(formTemp),
+			})
+
+			window.location.reload()
+			setIsLoading(false)
+			
+		} catch (err) {
+			setIsLoading(false)
+			console.log(err)
 		}
-
-		await authFetch(config.api + `/api/users/${data._id}`, {
-			method: 'PUT',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify(formTemp),
-		})
-
-		// Setting alerts
-		setIsMissing(false)
-		setIsTaken(false)
-
-		window.location.reload()
 	}
 
 	// Gets image file and sends it to backend
@@ -130,7 +136,7 @@ function Profile() {
 	// 		console.log(err)
 	// 	}
 
-	// 
+	//
 	// 	// window.location.reload()
 	// }
 
@@ -167,11 +173,11 @@ function Profile() {
 							<CardHeader className="text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
 								{/* Editing Profile img  */}
 								<div className="d-flex justify-content-between">
-								<EditPic userId={data._id}/>
-								{/* TODO: For custom profile pictures */}
+									<EditPic userId={data._id} />
+									{/* TODO: For custom profile pictures */}
 									{/* <Button className="mr-4" color="default" size="sm" htmlFor="file-upload"> */}
-										{/* Input is hidden, label triggers it */}
-										{/* <label className="m-0 file-upload-label" size="sm" htmlFor="file-upload">
+									{/* Input is hidden, label triggers it */}
+									{/* <label className="m-0 file-upload-label" size="sm" htmlFor="file-upload">
 											Edit
 											<input
 												id="file-upload"
@@ -208,7 +214,7 @@ function Profile() {
 									</Col>
 									{/* Save Button */}
 									<Col className="text-right" xs="4">
-										<Button color="success" href="#pablo" onClick={() => onSubmit()} size="sm">
+										<Button color="success" href="#pablo" onClick={() => onSubmit()} size="sm" disabled={isLoading}>
 											Save changes
 										</Button>
 									</Col>
@@ -298,6 +304,11 @@ function Profile() {
 												{isTaken ? (
 													<Alert color="warning">
 														<strong>Username is already taken.</strong> Please choose other username.
+													</Alert>
+												) : null}
+												{isLoading ? (
+													<Alert color="info">
+														<strong>Loading...</strong>
 													</Alert>
 												) : null}
 											</Col>

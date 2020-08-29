@@ -29,6 +29,7 @@ function NewOrg(props) {
 	const [isTaken, setIsTaken] = useState(false)
 	const [isSaved, setIsSaved] = useState(false)
 	const [isEmpty, setIsEmpty] = useState(false)
+	const [isLoading, setIsLoading] = useState(false)
 
 	// Updates state when input changes
 	const onChangeHandle = ({ target }) => {
@@ -41,11 +42,12 @@ function NewOrg(props) {
 	const onSubmitHandle = async () => {
 		setIsTaken(false)
 		setIsEmpty(false)
-
+		setIsLoading(true)
 		try {
 			// Duplicate org title check
 			let orgs = await fetch(
-				config.api + '/api/organizations?' +
+				config.api +
+					'/api/organizations?' +
 					new URLSearchParams({
 						title: form.title,
 					})
@@ -81,7 +83,9 @@ function NewOrg(props) {
 			})
 
 			setIsSaved(true)
+			setIsLoading(false)
 		} catch (err) {
+			setIsLoading(false)
 			console.log(err)
 		}
 	}
@@ -148,12 +152,17 @@ function NewOrg(props) {
 									Organization ID: {form.organizationId}
 								</Alert>
 							) : null}
+							{isLoading ? (
+								<Alert color="info">
+									<strong>Loading...</strong>
+								</Alert>
+							) : null}
 
 							{/* </div> */}
-							<Button color="primary" href="#pablo" size="sm" onClick={() => onSubmitHandle()}>
+							<Button color="primary" href="#pablo" size="sm" onClick={() => onSubmitHandle()} disabled={isLoading}>
 								Add Organization
 							</Button>
-							<Button color="danger" href="#pablo" onClick={() => props.toggleModal()} size="sm" className="">
+							<Button color="danger" href="#pablo" onClick={() => props.toggleModal()} size="sm" disabled={isLoading}>
 								Close
 							</Button>
 						</Form>

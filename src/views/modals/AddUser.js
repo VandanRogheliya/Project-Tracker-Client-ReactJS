@@ -9,6 +9,7 @@ function AddUser({ data, toggleModal, toggle }) {
 	const [addUser, setAddUser] = useState('')
 	const [notFound, setNotFound] = useState(false)
 	const [isPresent, setIsPresent] = useState(false)
+	const [isLoading, setIsLoading] = useState(false)
 
 	const onChangeHandle = ({ target }) => {
 		const { value } = target
@@ -16,6 +17,7 @@ function AddUser({ data, toggleModal, toggle }) {
 	}
 
 	const onAddUser = async admin => {
+		setIsLoading(true)
 		try {
 			const members = data.org.members.map(e => e.user.username)
 
@@ -27,7 +29,8 @@ function AddUser({ data, toggleModal, toggle }) {
 
 			// Fetching User
 			let user = await fetch(
-				config.api + '/api/users?' +
+				config.api +
+					'/api/users?' +
 					new URLSearchParams({
 						username: addUser,
 					})
@@ -63,7 +66,9 @@ function AddUser({ data, toggleModal, toggle }) {
 				body: body,
 			})
 			window.location.reload()
+			setIsLoading(false)
 		} catch (err) {
+			setIsLoading(false)
 			console.log(err)
 		}
 	}
@@ -102,13 +107,18 @@ function AddUser({ data, toggleModal, toggle }) {
 								<strong>User is already in the organization.</strong>
 							</Alert>
 						)}
-						<Button color="primary" href="#pablo" onClick={() => onAddUser(false)} size="sm">
+						{isLoading ? (
+								<Alert color="info">
+									<strong>Loading...</strong>
+								</Alert>
+							) : null}
+						<Button color="primary" href="#pablo" onClick={() => onAddUser(false)} size="sm" disabled={isLoading}>
 							Add as Member
 						</Button>
-						<Button color="primary" href="#pablo" onClick={() => onAddUser(true)} size="sm">
+						<Button color="primary" href="#pablo" onClick={() => onAddUser(true)} size="sm" disabled={isLoading}>
 							Add as Admin
 						</Button>
-						<Button color="danger" href="#pablo" onClick={() => toggleModal()} size="sm">
+						<Button color="danger" href="#pablo" onClick={() => toggleModal()} size="sm" disabled={isLoading}>
 							Close
 						</Button>
 					</CardBody>

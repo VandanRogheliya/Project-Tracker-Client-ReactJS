@@ -32,6 +32,7 @@ function NewProject(props) {
 	const [isSaved, setIsSaved] = useState(false)
 	const [isEmpty, setIsEmpty] = useState(false)
 	const [isMissing, setIsMissing] = useState(false)
+	const [isLoading, setIsLoading] = useState(false)
 
 	// Updates state when input changes
 	const onChangeHandle = ({ target }) => {
@@ -45,6 +46,7 @@ function NewProject(props) {
 		setIsTaken(false)
 		setIsEmpty(false)
 		setIsMissing(false)
+		setIsLoading(true)
 
 		try {
 			// Empty Check
@@ -55,7 +57,8 @@ function NewProject(props) {
 
 			// Org Check
 			let orgs = await fetch(
-				config.api + '/api/organizations?' +
+				config.api +
+					'/api/organizations?' +
 					new URLSearchParams({
 						title: form.organization,
 					})
@@ -70,7 +73,8 @@ function NewProject(props) {
 
 			// Duplicate project title check
 			let projects = await fetch(
-				config.api + '/api/projects?' +
+				config.api +
+					'/api/projects?' +
 					new URLSearchParams({
 						title: form.title,
 						organization: orgs[0]._id,
@@ -107,7 +111,9 @@ function NewProject(props) {
 			})
 
 			setIsSaved(true)
+			setIsLoading(false)
 		} catch (err) {
+			setIsLoading(false)
 			console.log(err)
 		}
 	}
@@ -212,11 +218,21 @@ function NewProject(props) {
 									Project ID: {form.projectId}
 								</Alert>
 							) : null}
-
-							<Button color="primary" href="#pablo" onClick={onSubmitHandle} size="sm">
+							{isLoading ? (
+								<Alert color="info">
+									<strong>Loading...</strong>
+								</Alert>
+							) : null}
+							<Button color="primary" href="#pablo" onClick={onSubmitHandle} size="sm" disabled={isLoading}>
 								Add Project
 							</Button>
-							<Button color="danger" href="#pablo" onClick={() => props.toggleModal()} size="sm">
+							<Button
+								color="danger"
+								href="#pablo"
+								onClick={() => props.toggleModal()}
+								size="sm"
+								disabled={isLoading}
+							>
 								Close
 							</Button>
 						</Form>

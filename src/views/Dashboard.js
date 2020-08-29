@@ -99,7 +99,7 @@ function Dashboard() {
 		if (!organizations)
 			return (
 				<tr>
-					<td>Loading</td>
+					<th>Loading</th>
 				</tr>
 			)
 
