@@ -28,9 +28,7 @@ function Login(props) {
 			if (query.code.length <= 20) {
 				token = await fetch(config.api + '/api/users/github/redirect?' + new URLSearchParams(query))
 			} else {
-				token = await fetch(
-					config.api + '/api/users/google/redirect?' + new URLSearchParams(query)
-				)
+				token = await fetch(config.api + '/api/users/google/redirect?' + new URLSearchParams(query))
 			}
 
 			token = await token.json()
@@ -60,8 +58,9 @@ function Login(props) {
 
 			// if (isMounted) setUser(checkJWTtoken.user)
 
-			// For navBar display picture
+			// For navBar display picture and headers
 			localStorage.setItem('image', checkJWTtoken.user.image)
+			localStorage.setItem('firstName', checkJWTtoken.user.firstName)
 
 			// If all fields are filled up sets complete flag true
 			// Also checks if component is mounted before changing the state

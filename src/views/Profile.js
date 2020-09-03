@@ -98,8 +98,8 @@ function Profile() {
 
 				// Checks if there is a user with that username
 				if (users.length) {
-				setIsLoading(false)
-				setIsTaken(true)
+					setIsLoading(false)
+					setIsTaken(true)
 					return
 				}
 			}
@@ -114,7 +114,6 @@ function Profile() {
 
 			window.location.reload()
 			setIsLoading(false)
-			
 		} catch (err) {
 			setIsLoading(false)
 			console.log(err)
@@ -148,6 +147,7 @@ function Profile() {
 
 	// Updates localstorage with new display image for navBar
 	localStorage.setItem('image', data.image)
+	localStorage.setItem('firstName', data.firstName)
 
 	return (
 		<>
@@ -216,7 +216,13 @@ function Profile() {
 									</Col>
 									{/* Save Button */}
 									<Col className="text-right" xs="4">
-										<Button color="success" href="#pablo" onClick={() => onSubmit()} size="sm" disabled={isLoading}>
+										<Button
+											color="success"
+											href="#pablo"
+											onClick={() => onSubmit()}
+											size="sm"
+											disabled={isLoading}
+										>
 											Save changes
 										</Button>
 									</Col>

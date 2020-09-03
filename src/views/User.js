@@ -32,6 +32,7 @@ function User(props) {
 				err.status = 404
 				throw err
 			}
+
 			return response
 		} catch (err) {
 			setIs404(true)
