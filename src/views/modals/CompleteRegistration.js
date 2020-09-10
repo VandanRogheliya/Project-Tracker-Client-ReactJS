@@ -22,6 +22,7 @@ function CompleteRegistration(props) {
 	const [isMissing, setIsMissing] = useState(false)
 	const [isTaken, setIsTaken] = useState(false)
 	const [isLoading, setIsLoading] = useState(false)
+	const [isInvalidUsername, setIsInvalidUsername] = useState(false)
 
 	// State to store form fields
 	const [form, setForm] = useState({
@@ -49,8 +50,19 @@ function CompleteRegistration(props) {
 				setIsMissing(true)
 				return
 			}
-
+			
 			if (isMissing) setIsMissing(false)
+			
+			// Checking if username is valid
+			const regex = RegExp(/^[a-zA-Z0-9]{3,20}$/)
+			
+			if (!regex.test(form.username)) {
+				setIsLoading(false)
+				setIsInvalidUsername(true)
+				return
+			}
+
+			if (isInvalidUsername) setIsInvalidUsername(false)
 
 			// Fetches all the users with the input username
 			let users = await fetch(config.api + '/api/users?' + new URLSearchParams({ username: form.username }))
@@ -155,6 +167,11 @@ function CompleteRegistration(props) {
 							{isMissing ? (
 								<Alert color="warning">
 									<strong>Please fill all the fields!</strong>
+								</Alert>
+							) : null}
+							{isInvalidUsername ? (
+								<Alert color="warning">
+									<strong>Username is invalid</strong> Please make sure you are only using alphabet and numbers and length of the username is between 3 and 20 characters.
 								</Alert>
 							) : null}
 							{isTaken ? (

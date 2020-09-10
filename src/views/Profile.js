@@ -40,6 +40,9 @@ function Profile() {
 	// Loading
 	const [isLoading, setIsLoading] = useState(false)
 
+	// Validating Username
+	const [isInvalidUsername, setIsInvalidUsername] = useState(false)
+
 	// Gets user data
 	const getUser = async () => {
 		let checkJWTtoken = await authFetch(config.api + '/api/users/checkJWTtoken')
@@ -68,6 +71,7 @@ function Profile() {
 		// Reseting alerts
 		setIsMissing(false)
 		setIsTaken(false)
+		setIsInvalidUsername(false)
 
 		setIsLoading(true)
 
@@ -84,6 +88,15 @@ function Profile() {
 			if (!formTemp.username || !formTemp.email || !formTemp.firstName || !formTemp.lastName) {
 				setIsLoading(false)
 				setIsMissing(true)
+				return
+			}
+
+			// Checking if username is valid
+			const regex = RegExp(/^[a-zA-Z0-9]{3,20}$/)
+
+			if (!regex.test(form.username)) {
+				setIsLoading(false)
+				setIsInvalidUsername(true)
 				return
 			}
 
@@ -307,6 +320,12 @@ function Profile() {
 												{isMissing ? (
 													<Alert color="warning">
 														<strong>Please fill all the fields!</strong>
+													</Alert>
+												) : null}
+												{isInvalidUsername ? (
+													<Alert color="warning">
+														<strong>Username is invalid</strong> Please make sure you are only using alphabet
+														and numbers and length of the username is between 3 and 20 characters.
 													</Alert>
 												) : null}
 												{isTaken ? (
