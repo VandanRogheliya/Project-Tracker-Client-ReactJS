@@ -42,7 +42,7 @@ function User(props) {
 
 	const { status, data } = useQuery('user', getUser)
 
-	if (status === 'loading') return <InfoStatus status="loading" />
+	if (status === 'loading' || !data.user) return <InfoStatus status="loading" />
 
 	if (status === 'error') return <InfoStatus status="error" />
 
@@ -74,7 +74,7 @@ function User(props) {
 
 	return (
 		<>
-			<OtherUserHeader name={data.user && data.user.firstName} />
+			<OtherUserHeader name={data.user ? data.user.firstName : 'Loading'} />
 			{/* Page content */}
 			<Container className="mt--7" fluid>
 				<Row>
@@ -90,7 +90,7 @@ function User(props) {
 												alt="..."
 												className="rounded-circle"
 												// src={'https://project-t-api.herokuapp.com/images/' + data.user.image}
-												src={require(`../assets/img/avatars/${data.user.image}`)}
+												src={require(`../assets/img/avatars/${data.user ? data.user.image : 'default.png'}`)}
 											/>
 										</a>
 									</div>
@@ -105,7 +105,7 @@ function User(props) {
 								</Row>
 								{/* Username */}
 								<div className="text-center">
-									<h3>{data.user && data.user.username}</h3>
+									<h3>{data.user ? data.user.username : 'Loading'}</h3>
 								</div>
 							</CardBody>
 						</Card>
@@ -138,7 +138,7 @@ function User(props) {
 								<Row className="align-items-center">
 									{/* First Name */}
 									<Col xs="8">
-										<h3 className="mb-0">{data.user && data.user.firstName}'s Account</h3>
+										<h3 className="mb-0">{data.user ? data.user.firstName : 'Loading'}'s Account</h3>
 									</Col>
 								</Row>
 							</CardHeader>
@@ -154,7 +154,7 @@ function User(props) {
 															Username
 														</CardTitle>
 														<span className="h4 font-weight-bold mb-0">
-															{data.user && data.user.username}
+															{data.user ? data.user.username : 'Loading'}
 														</span>
 													</div>
 												</Row>
@@ -170,7 +170,9 @@ function User(props) {
 														<CardTitle tag="h5" className="text-uppercase text-muted mb-0">
 															Email
 														</CardTitle>
-														<span className="h4 font-weight-bold mb-0">{data.user && data.user.email}</span>
+														<span className="h4 font-weight-bold mb-0">
+															{data.user ? data.user.email : 'Loading'}
+														</span>
 													</div>
 												</Row>
 											</CardBody>
@@ -188,7 +190,7 @@ function User(props) {
 															First Name
 														</CardTitle>
 														<span className="h4 font-weight-bold mb-0">
-															{data.user && data.user.firstName}
+															{data.user ? data.user.firstName : 'Loading'}
 														</span>
 													</div>
 												</Row>
@@ -205,7 +207,7 @@ function User(props) {
 															Last Name
 														</CardTitle>
 														<span className="h4 font-weight-bold mb-0">
-															{data.user && data.user.lastName}
+															{data.user ? data.user.lastName : 'Loading'}
 														</span>
 													</div>
 												</Row>
@@ -217,7 +219,6 @@ function User(props) {
 								{/* Stats */}
 								<Row>
 									{/* Assigned */}
-									{/* Add links after completing search page TODO: */}
 									<Col lg="12" xl="12">
 										<Card className="card-stats mb-4 mb-xl-0">
 											<CardBody>
@@ -227,7 +228,7 @@ function User(props) {
 															Assigned
 														</CardTitle>
 														<span className="h4 font-weight-bold mb-0">
-															{data.user && data.user.issuesAssigned.length}
+															{data.user ? data.user.issuesAssigned.length : 'Loading'}
 														</span>
 													</div>
 													<Col className="col-auto ">
@@ -249,7 +250,7 @@ function User(props) {
 															Accepted
 														</CardTitle>
 														<span className="h4 font-weight-bold mb-0">
-															{data.user && data.user.patchesAccepted.length}
+															{data.user ? data.user.patchesAccepted.length : 'Loading'}
 														</span>
 													</div>
 													<Col className="col-auto">
@@ -271,7 +272,7 @@ function User(props) {
 															Filed
 														</CardTitle>
 														<span className="h4 font-weight-bold mb-0">
-															{data.user && data.user.issuesFiled.length}
+															{data.user ? data.user.issuesFiled.length : 'Loading'}
 														</span>
 													</div>
 													<Col className="col-auto">

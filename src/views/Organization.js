@@ -622,8 +622,16 @@ function Organization(props) {
 												toggleModal={() => toggleModal('newProject')}
 												org={data.org.title}
 											/>
-											<Button color="secondary" href="#pablo" onClick={() => toggleModal('requests')} size="sm">
+											<Button
+												color="secondary"
+												href="#pablo"
+												onClick={() => toggleModal('requests')}
+												size="sm"
+											>
 												Requests
+												{data.requests.length ? (
+													<span className="button-badge">{data.requests.length}</span>
+												) : null}
 											</Button>
 											{/* Request Modal */}
 											<Modal

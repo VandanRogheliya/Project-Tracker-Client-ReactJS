@@ -63,7 +63,8 @@ function Dashboard() {
 			user = await user.json()
 
 			let reviewedIssues = await fetch(
-				config.api + '/api/issues?' +
+				config.api +
+					'/api/issues?' +
 					new URLSearchParams({
 						reviewer: user._id,
 					})
@@ -86,7 +87,7 @@ function Dashboard() {
 	// For Modals
 	const [toggles, toggleModal] = useReducer(reducer, initialState)
 
-	if (status === 'loading') {
+	if (status === 'loading' || !data.username) {
 		return <InfoStatus status="loading" />
 	}
 
@@ -133,7 +134,7 @@ function Dashboard() {
 				</th>
 
 				<th scope="row">
-					<span className="mb-0 text-sm">{issue.issue ? issue.issue.status: `Loading`}</span>
+					<span className="mb-0 text-sm">{issue.issue ? issue.issue.status : `Loading`}</span>
 				</th>
 
 				<th scope="row">
@@ -179,7 +180,6 @@ function Dashboard() {
 			</Modal>
 		)
 	}
-
 
 	return (
 		<>
