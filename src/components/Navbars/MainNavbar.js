@@ -15,7 +15,8 @@ import {
 } from 'reactstrap'
 
 function MainNavbar(props) {
-	const image = localStorage.getItem('image')
+	const image = localStorage.getItem('image') 
+	const name = localStorage.getItem('firstName') 
 	return (
 		<>
 			<Navbar className="navbar-top navbar-dark" expand="md" id="navbar-main">
@@ -30,13 +31,14 @@ function MainNavbar(props) {
 							<DropdownToggle className="pr-0" nav>
 								<Media className="align-items-center">
 									<span className="avatar avatar-sm rounded-circle">
-										<img alt="..." 
-										// src={`https://project-t-api.herokuapp.com/images/`+image} 
-										src={require(`../../assets/img/avatars/${image}`)}
+										<img
+											alt="..."
+											// src={`https://project-t-api.herokuapp.com/images/`+image}
+											src={require(`../../assets/img/avatars/${image}`)}
 										/>
 									</span>
 									<Media className="ml-2 d-none d-lg-block">
-										<span className="mb-0 text-sm font-weight-bold">Vandan Rogheliya</span>
+										<span className="mb-0 text-sm font-weight-bold">{name}</span>
 									</Media>
 								</Media>
 							</DropdownToggle>
