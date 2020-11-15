@@ -50,8 +50,6 @@ function User(props) {
 		return <InfoStatus status="404" />
 	}
 
-	// if (!data.user) return <div>User Not Found</div>
-
 	// Populating Organizations List
 	const organizations = organizations => {
 		if (!organizations)
@@ -110,7 +108,6 @@ function User(props) {
 							</CardBody>
 						</Card>
 						{/* Organizations */}
-						{/* TODO: Add Link */}
 						<Card className="shadow mt-5">
 							<CardHeader className="border-0">
 								<Row className="align-items-center">
