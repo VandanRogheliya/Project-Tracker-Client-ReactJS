@@ -158,7 +158,7 @@ class Sidebar extends React.Component {
 						<Nav className="mb-md-3" navbar>
 							<NavItem>
 								<NavLink
-									href="https://github.com/VandanRogheliya/ProjectTracker-MERN-Project"
+									href="https://github.com/VandanRogheliya/Project-Tracker-Client-ReactJS"
 									target="_blank"
 								>
 									<i className="fab fa-github-alt" />
