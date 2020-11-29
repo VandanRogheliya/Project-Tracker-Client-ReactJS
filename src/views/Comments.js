@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { useQuery } from 'react-query'
 import { Link } from 'react-router-dom'
 import { authFetch } from '../AuthProvider.ts'
 // reactstrap components
@@ -19,7 +18,6 @@ import {
 	Badge,
 } from 'reactstrap'
 import EditComment from './modals/EditComment'
-import InfoStatus from './InfoStatus'
 import { config } from '../config'
 
 function Comments(props) {
@@ -31,25 +29,6 @@ function Comments(props) {
 		fileName: '',
 		fileLink: '',
 	})
-
-	const getComments = async () => {
-		try {
-			let comments = await authFetch(
-				config.api +
-					'/api/comments?' +
-					new URLSearchParams({
-						issue: props.issueId,
-					})
-			)
-			comments = await comments.json()
-
-			return comments
-		} catch (err) {
-			console.log(err)
-		}
-	}
-
-	const { status, data } = useQuery('comments', getComments)
 
 	// Updates state when input changes
 	const onChangeHandle = ({ target }) => {
@@ -192,10 +171,6 @@ function Comments(props) {
 		})
 	}
 
-	if (status === 'loading') return <InfoStatus status="loading" />
-
-	if (status === 'error') return <InfoStatus status="error" />
-
 	return (
 		<Row>
 			<div className="col">
@@ -206,7 +181,7 @@ function Comments(props) {
 				</Card>
 
 				{/* Example Comment */}
-				{comments(data)}
+				{comments(props.data)}
 				{/* Posting a comment */}
 				{props.isMember ? (
 					<Card className="card-stats mb-4 mb-xl-0 mt-4">

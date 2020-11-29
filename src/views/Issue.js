@@ -83,6 +83,9 @@ function Issue(props) {
 
 			response.user = user.user
 
+			// Fetches comments
+			response.comments = await getComments(response)
+
 			return response
 		} catch (err) {
 			// Logs the error
@@ -93,9 +96,27 @@ function Issue(props) {
 		}
 	}
 
+	const getComments = async (data) => {
+		try {
+			let comments = await authFetch(
+				config.api +
+					'/api/comments?' +
+					new URLSearchParams({
+						issue: data.issue._id,
+					})
+			)
+			comments = await comments.json()
+
+			return comments
+		} catch (err) {
+			console.log(err)
+		}
+	}
+
 	const { status, data } = useQuery('issue', getIssue)
 
-	if (status === 'loading') return <InfoStatus status="loading" />
+	if (status === 'loading' || (data && data.issue && data.issue._id !== props.match.params.id))
+		return <InfoStatus status="loading" />
 
 	if (status === 'error') return <InfoStatus status="error" />
 
@@ -108,10 +129,7 @@ function Issue(props) {
 		))
 	}
 
-	if (is404) {
-		// TODO: Edit in 404 page
-		return <InfoStatus status="404" />
-	}
+	if (is404) return <InfoStatus status="404" />
 
 	return (
 		<>
@@ -371,6 +389,7 @@ function Issue(props) {
 									userId={data.user._id}
 									orgId={data.issue.organization._id}
 									isMember={isMember}
+									data={data.comments}
 								/>
 							</CardBody>
 						</Card>

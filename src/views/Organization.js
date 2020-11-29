@@ -160,7 +160,7 @@ function Organization(props) {
 	const { status, data } = useQuery('orgs', getOrg)
 
 	// Loading Status
-	if (status === 'loading') {
+	if (status === 'loading' || (data && data.org && data.org._id !== props.match.params.id)) {
 		return <InfoStatus status="loading" />
 	}
 
@@ -593,7 +593,7 @@ function Organization(props) {
 									<thead className="thead-light">
 										<tr>
 											<th scope="col">Member</th>
-											<th scope="col">Roll</th>
+											<th scope="col">Role</th>
 											{isAdmin ? <th scope="col">Action</th> : <th scope="col"></th>}
 										</tr>
 									</thead>

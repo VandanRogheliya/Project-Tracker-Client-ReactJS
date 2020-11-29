@@ -62,7 +62,7 @@ Project Tracker is a web application that helps to track bugs in projects. Users
 
  * **OAuth2 Authentication**: Users can use their GitHub or Google account to authenticate
 
- * **Openning new issues**: Add description, deadline, tags, links, status, assignee and reviewer.
+ * **Opening new issues**: Add description, deadline, tags, links, status, assignee and reviewer.
  
  * **Managing Projects**: Make your organization to group all your projects.
 
@@ -72,9 +72,9 @@ Project Tracker is a web application that helps to track bugs in projects. Users
  
  * **Commenting on issues**
  
- * **Managing Roles**: Admins and higher can demote, promote and kick other lower roles. Admins and higher can invite other users to organization or other users can request to join.
+ * **Managing Roles**: Admins and higher can demote, promote and kick other lower roles. Admins and higher can invite other users to the organization or other users can request to join.
  
- * **Dashboard**: Access all bugs you have interacted which are catagorized accordingly. Also access all the organizations you are part of.
+ * **Dashboard**: Access all bugs you have interacted which are categorized accordingly. Also, access all the organizations you are part of.
 
  * **Account Management**: Change username, first name, last name, email and profile picture.
 

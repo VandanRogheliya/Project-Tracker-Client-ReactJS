@@ -97,7 +97,7 @@ function Project(props) {
 
 	const { status, data } = useQuery('project', getProject)
 
-	if (status === 'loading') {
+	if (status === 'loading' || (data && data.project && data.project._id !== props.match.params.id)) {
 		return <InfoStatus status="loading" />
 	}
 
