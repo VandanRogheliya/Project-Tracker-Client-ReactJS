@@ -268,7 +268,7 @@ function Dashboard() {
 								<thead className="thead-light">
 									<tr>
 										<th scope="col">Organizations</th>
-										<th scope="col">Roll</th>
+										<th scope="col">Role</th>
 									</tr>
 								</thead>
 								<tbody>{organizations(data.organizations)}</tbody>
