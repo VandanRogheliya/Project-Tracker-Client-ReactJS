@@ -101,10 +101,11 @@ class Sidebar extends React.Component {
 							<DropdownToggle nav>
 								<Media className="align-items-center">
 									<span className="avatar avatar-sm rounded-circle">
-										<img alt="..." 
-										// src={`https://project-t-api.herokuapp.com/images/` + this.state.image}
-										src={require(`../../assets/img/avatars/${this.state.image}`)}
-										 />
+										<img
+											alt="..."
+											// src={`https://project-t-api.herokuapp.com/images/` + this.state.image}
+											src={require(`../../assets/img/avatars/${this.state.image}`)}
+										/>
 									</span>
 								</Media>
 							</DropdownToggle>
@@ -156,6 +157,15 @@ class Sidebar extends React.Component {
 						<hr className="my-3" />
 						{/* Navigation */}
 						<Nav className="mb-md-3" navbar>
+							<NavItem>
+								<NavLink
+									href="https://github.com/VandanRogheliya/Project-Tracker-Client-ReactJS#readme"
+									target="_blank"
+								>
+									<i className="fas fa-question text-green" />
+									Help
+								</NavLink>
+							</NavItem>
 							<NavItem>
 								<NavLink
 									href="https://github.com/VandanRogheliya/Project-Tracker-Client-ReactJS"

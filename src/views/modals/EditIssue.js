@@ -303,6 +303,7 @@ function EditIssue(props) {
 
 			setIsDeleted(true)
 		} catch (err) {
+			setIsDeleted(false)
 			setIsLoading(false)
 			console.log(err)
 		}

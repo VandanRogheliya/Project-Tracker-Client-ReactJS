@@ -60,14 +60,6 @@ var routes = [
 		sidebar: false,
 	},
 	{
-		path: '/organization/5f3f54b26738524168e5c25c',
-		name: 'Help',
-		icon: 'fas fa-question text-green',
-		component: Organization,
-		layout: '',
-		sidebar: true,
-	},
-	{
 		path: '/project/:id',
 		name: 'Project',
 		icon: 'ni ni-planet text-blue',
