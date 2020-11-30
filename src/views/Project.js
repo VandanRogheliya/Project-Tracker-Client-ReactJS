@@ -35,6 +35,7 @@ function Project(props) {
 
 	// Flags
 	const [isAdmin, setIsAdmin] = useState(false)
+	const [isMember, setIsMember] = useState(false)
 	const [is404, setIs404] = useState(false)
 
 	// Fetches data
@@ -77,13 +78,16 @@ function Project(props) {
 			user = await user.json()
 			let userOrgs = user.user.organizations
 
-			// Sets isAdin
+			// Sets isAdin and isMember
 			for (let index = 0; index < userOrgs.length; index++) {
-				if (userOrgs[index].organization === response.project.organization._id && userOrgs[index].admin) {
-					setIsAdmin(true)
-					break
+				if (userOrgs[index].organization === response.project.organization._id) {
+					setIsMember(true)
+					if (userOrgs[index].admin) {
+						setIsAdmin(true)
+					}
 				}
 			}
+
 			response.user = user.user
 			return response
 		} catch (err) {
@@ -236,7 +240,7 @@ function Project(props) {
 									</Col>
 
 									{/* Edit */}
-									{isAdmin && (
+									{isMember && (
 										<Col className="text-right" xs="12">
 											<Button color="primary" onClick={() => toggleModal('newIssue')} size="sm">
 												File New Issue
@@ -248,21 +252,25 @@ function Project(props) {
 												org={data.project.organization.title}
 												project={data.project.title}
 											/>
-											<Button
-												color="secondary"
-												href="#pablo"
-												onClick={() => toggleModal('editProject')}
-												size="sm"
-											>
-												Edit
-											</Button>
-											<EditProject
-												toggle={toggles.editProject}
-												toggleModal={() => toggleModal('editProject')}
-												deleteToggle={toggles.deleteProject}
-												deleteToggleModal={() => toggleModal('deleteProject')}
-												project={data.project}
-											/>
+											{isAdmin && (
+												<>
+													<Button
+														color="secondary"
+														href="#pablo"
+														onClick={() => toggleModal('editProject')}
+														size="sm"
+													>
+														Edit
+													</Button>
+													<EditProject
+														toggle={toggles.editProject}
+														toggleModal={() => toggleModal('editProject')}
+														deleteToggle={toggles.deleteProject}
+														deleteToggleModal={() => toggleModal('deleteProject')}
+														project={data.project}
+													/>
+												</>
+											)}
 										</Col>
 									)}
 								</Row>
