@@ -109,7 +109,17 @@ Levels of access in decreasing order are:
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-`Pending`
+### Organizations
+To start tracking any project you will first require to open an organization. It is used to group projects and define which users have what access level in the org. More on roles and access level [here](#roles-in-detail).
+
+(What are organizations, how to create them, using them(promote, demote, kick, invite, requests))
+
+### Projects
+(What are projects and how to create it)
+
+### Issues
+(What are issues, how to create it)
+
 
 
 <!-- CONTACT -->

@@ -44,7 +44,7 @@ function AuthNavbar() {
 						<Nav className="ml-auto" navbar>
 							<NavItem>
 								<NavLink
-									href="https://github.com/VandanRogheliya/ProjectTracker-MERN-Project"
+									href="https://github.com/VandanRogheliya/Project-Tracker-Client-ReactJS"
 									target="_blank"
 								>
 									<p>
