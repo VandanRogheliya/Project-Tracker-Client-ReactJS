@@ -197,7 +197,6 @@ function Dashboard() {
 										<img
 											alt="..."
 											className="rounded-circle"
-											// src={'https://project-t-api.herokuapp.com/images/' + data.image}
 											src={require(`../assets/img/avatars/${data.image}`)}
 										/>
 									</div>

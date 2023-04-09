@@ -1,3 +1,3 @@
 export const config = {
-  api: 'https://project-t-api.herokuapp.com'
-}
+  api: process.env.REACT_APP_API_ENDPOINT,
+};

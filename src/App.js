@@ -1,9 +1,9 @@
-import React from 'react'
-import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
-import { ReactQueryConfigProvider } from 'react-query'
-import Auth from './layout/Auth'
-import Main from './layout/Main'
-const queryConfig = { queries: { refetchOnWindowFocus: false } }
+import React from "react";
+import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
+import { ReactQueryConfigProvider } from "react-query";
+import Auth from "./layout/Auth";
+import Main from "./layout/Main";
+const queryConfig = { queries: { refetchOnWindowFocus: false } };
 
 /*
  * Two layouts:
@@ -13,19 +13,19 @@ const queryConfig = { queries: { refetchOnWindowFocus: false } }
  */
 
 function App() {
-	return (
-		<ReactQueryConfigProvider config={queryConfig}>
-			<BrowserRouter>
-				<Switch>
-					<Route path="/auth" render={props => <Auth {...props} />} />
-					<Route path="/" render={props => <Main {...props} />} />
-					<Redirect from="/" to="/search" />
-				</Switch>
-			</BrowserRouter>
-		</ReactQueryConfigProvider>
-	)
+  return (
+    <ReactQueryConfigProvider config={queryConfig}>
+      <BrowserRouter>
+        <Switch>
+          <Route path="/auth" render={(props) => <Auth {...props} />} />
+          <Route path="/" render={(props) => <Main {...props} />} />
+          <Redirect from="/" to="/search" />
+        </Switch>
+      </BrowserRouter>
+    </ReactQueryConfigProvider>
+  );
 }
 
-export default App
+export default App;
 
 // module.exports [user, setUser]

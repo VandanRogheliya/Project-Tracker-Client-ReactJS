@@ -33,7 +33,6 @@ function MainNavbar(props) {
 									<span className="avatar avatar-sm rounded-circle">
 										<img
 											alt="..."
-											// src={`https://project-t-api.herokuapp.com/images/`+image}
 											src={require(`../../assets/img/avatars/${image}`)}
 										/>
 									</span>

@@ -91,7 +91,6 @@ function Comments(props) {
 									<span className="avatar avatar-sm rounded-circle">
 										<img
 											alt="..."
-											// src={`https://project-t-api.herokuapp.com/images/${comment.author.image}`}
 											src={require(`../assets/img/avatars/${comment.author.image}`)}
 										/>
 									</span>

@@ -178,8 +178,6 @@ function Profile() {
 										<img
 											alt="..."
 											className="rounded-circle"
-											// src={'https://project-t-api.herokuapp.com/images/' + data.image}
-											// src={'http://localhost:5000/images/' + data.image}
 											src={require(`../assets/img/avatars/${data.image}`)}
 										/>
 									</div>

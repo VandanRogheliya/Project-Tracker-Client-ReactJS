@@ -103,7 +103,6 @@ class Sidebar extends React.Component {
 									<span className="avatar avatar-sm rounded-circle">
 										<img
 											alt="..."
-											// src={`https://project-t-api.herokuapp.com/images/` + this.state.image}
 											src={require(`../../assets/img/avatars/${this.state.image}`)}
 										/>
 									</span>
