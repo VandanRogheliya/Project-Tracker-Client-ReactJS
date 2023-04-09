@@ -1,7 +1,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-  <a href="https://vproject-t.herokuapp.com">
+  <a href="https://projectbugtracker.vercel.app">
     <img src="src/assets/img/brand/logo-blue-3.png" alt="Logo" width="310">
   </a>
 
@@ -11,7 +11,7 @@
     A bug tracker
     <br />
     <br />
-    <a href="https://vproject-t.herokuapp.com">Visit site</a>
+    <a href="https://projectbugtracker.vercel.app">Visit site</a>
     ·
     <a href="https://github.com/VandanRogheliya/Project-Tracker-Client-ReactJS">Client Repo</a>
     ·
